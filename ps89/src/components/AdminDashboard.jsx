@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Sun, Moon } from "lucide-react";
 import SocietyStatsModal from "../components/SocietyStatsModal";
 import GovernmentPolls from "../components/GovernmentPolls";
 import WelfareFund from "../components/WelfareFund";
@@ -167,47 +168,62 @@ const sidebarItems = [
 
 function AdminDashboard() {
   const [isSocietyModalOpen, setIsSocietyModalOpen] = useState(false);
-
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [activePage, setActivePage] = useState("home");
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    if (document.documentElement.classList.contains("dark")) {
+      setIsDarkMode(true);
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    if (isDarkMode) {
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
+      setIsDarkMode(false);
+    } else {
+      document.documentElement.classList.remove("light");
+      document.documentElement.classList.add("dark");
+      setIsDarkMode(true);
+    }
+  };
 
   const handleNavigation = (page) => {
     setActivePage(page);
-
-    // On mobile, close sidebar after selecting a page.
     if (window.innerWidth < 768) {
       setIsSidebarOpen(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#faf6f0] text-gray-900">
+    <div className="min-h-screen bg-[#FAF6F0] dark:bg-[#111311] text-stone-900 dark:text-stone-100 transition-colors duration-300">
       {/* =====================================================
           SIDEBAR
       ===================================================== */}
 
       <aside
-        className={`fixed left-0 top-0 z-50 flex h-screen flex-col border-r border-[#eadfd4] bg-white transition-all duration-300 ${
+        className={`fixed left-0 top-0 z-50 flex h-screen flex-col border-r border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-950 transition-all duration-300 ${
           isSidebarOpen ? "w-64" : "w-20"
         }`}
       >
         {/* Logo */}
         <div
-          className={`flex h-20 items-center border-b border-[#eadfd4] ${
+          className={`flex h-20 items-center border-b border-stone-200 dark:border-stone-800 ${
             isSidebarOpen ? "justify-between px-6" : "justify-center"
           }`}
         >
           {isSidebarOpen && (
             <div>
-              <h1 className="text-lg font-bold text-gray-900">Cooperative</h1>
-
-              <p className="text-xs font-medium text-[#C1622B]">Services</p>
+              <h1 className="text-lg font-extrabold text-stone-900 dark:text-white">Cooperative</h1>
+              <p className="text-xs font-bold text-[#C1622B] dark:text-orange-400">Services Admin</p>
             </div>
           )}
 
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#f8e8dc] text-lg text-[#C1622B] transition hover:bg-[#C1622B] hover:text-white"
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-stone-100 dark:bg-stone-800 text-lg text-[#C1622B] dark:text-orange-400 transition hover:bg-[#C1622B] hover:text-white"
             aria-label="Toggle sidebar"
           >
             {isSidebarOpen ? "←" : "→"}
@@ -224,8 +240,8 @@ function AdminDashboard() {
                 isSidebarOpen ? "gap-4 px-4" : "justify-center px-2"
               } ${
                 activePage === item.id
-                  ? "bg-[#C1622B] text-white shadow-md"
-                  : "text-gray-600 hover:bg-[#f8e8dc] hover:text-[#C1622B]"
+                  ? "bg-[#C1622B] dark:bg-[#E07A3E] text-white shadow-md font-bold"
+                  : "text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800/60 hover:text-[#C1622B] dark:hover:text-orange-400"
               }`}
             >
               <span className="text-xl">{item.icon}</span>
@@ -236,7 +252,7 @@ function AdminDashboard() {
         </nav>
 
         {/* Admin mini profile */}
-        <div className="border-t border-[#eadfd4] p-4">
+        <div className="border-t border-stone-200 dark:border-stone-800 p-4">
           <div
             className={`flex items-center ${
               isSidebarOpen ? "gap-3" : "justify-center"
@@ -245,16 +261,16 @@ function AdminDashboard() {
             <img
               src={adminData.photo}
               alt="Admin"
-              className="h-10 w-10 rounded-full object-cover ring-2 ring-[#f8e8dc]"
+              className="h-10 w-10 rounded-full object-cover ring-2 ring-[#C1622B]/30"
             />
 
             {isSidebarOpen && (
               <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-gray-900">
+                <p className="truncate text-sm font-bold text-stone-900 dark:text-white">
                   {adminData.name}
                 </p>
 
-                <p className="text-xs text-gray-500">Administrator</p>
+                <p className="text-xs text-stone-500 dark:text-stone-400">Administrator</p>
               </div>
             )}
           </div>
@@ -271,13 +287,13 @@ function AdminDashboard() {
         }`}
       >
         {/* Top Header */}
-        <header className="sticky top-0 z-40 flex h-20 items-center justify-between border-b border-[#eadfd4] bg-[#faf6f0]/95 px-6 backdrop-blur md:px-10">
+        <header className="sticky top-0 z-40 flex h-20 items-center justify-between border-b border-stone-200 dark:border-stone-800 bg-[#FAF6F0]/95 dark:bg-[#111311]/95 px-6 backdrop-blur md:px-10">
           <div>
-            <p className="text-sm font-medium text-gray-500">
+            <p className="text-sm font-medium text-stone-500 dark:text-stone-400">
               Federation Admin Portal
             </p>
 
-            <h2 className="text-xl font-bold text-gray-900">
+            <h2 className="text-xl font-extrabold text-stone-900 dark:text-white">
               {activePage === "home"
                 ? "Dashboard"
                 : sidebarItems.find((item) => item.id === activePage)?.label}
@@ -285,17 +301,31 @@ function AdminDashboard() {
           </div>
 
           <div className="flex items-center gap-4">
-            <button className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-white text-lg shadow-sm ring-1 ring-[#eadfd4] transition hover:bg-[#f8e8dc]">
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              type="button"
+              className="flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-stone-800 text-stone-800 dark:text-amber-400 shadow-sm border border-stone-200 dark:border-stone-700 transition hover:scale-105"
+              aria-label={isDarkMode ? "Switch to light theme" : "Switch to dark theme"}
+            >
+              {isDarkMode ? (
+                <Sun className="h-4.5 w-4.5 text-amber-400" />
+              ) : (
+                <Moon className="h-4.5 w-4.5 text-stone-800" />
+              )}
+            </button>
+
+            <button className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-stone-800 text-lg shadow-sm border border-stone-200 dark:border-stone-700 transition hover:bg-stone-100 dark:hover:bg-stone-700">
               🔔
-              <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-[#C1622B]" />
+              <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-[#C1622B] dark:bg-orange-400" />
             </button>
 
             <div className="hidden text-right sm:block">
-              <p className="text-sm font-semibold text-gray-900">
+              <p className="text-sm font-bold text-stone-900 dark:text-white">
                 {adminData.name}
               </p>
 
-              <p className="text-xs text-gray-500">{adminData.society}</p>
+              <p className="text-xs text-stone-500 dark:text-stone-400">{adminData.society}</p>
             </div>
 
             <img
@@ -334,13 +364,13 @@ function SocietiesPage() {
     <>
       <section>
         <div className="mb-8">
-          <p className="text-sm font-medium text-[#C1622B]">
+          <p className="text-sm font-semibold uppercase tracking-wider text-[#C1622B] dark:text-orange-400">
             Society Management
           </p>
 
-          <h1 className="mt-1 text-3xl font-bold text-gray-900">Societies</h1>
+          <h1 className="mt-1 text-3xl font-extrabold text-stone-900 dark:text-white">Societies</h1>
 
-          <p className="mt-2 text-gray-500">
+          <p className="mt-2 text-stone-600 dark:text-stone-400 font-medium">
             Manage and monitor the society assigned to you.
           </p>
         </div>
@@ -348,28 +378,28 @@ function SocietiesPage() {
         {/* Managed society card */}
         <button
           onClick={() => setIsSocietyModalOpen(true)}
-          className="group w-full max-w-3xl rounded-2xl border border-[#eadfd4] bg-white p-6 text-left shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#C1622B] hover:shadow-lg"
+          className="group w-full max-w-3xl rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900/90 p-6 text-left shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#C1622B] dark:hover:border-orange-400 hover:shadow-lg"
         >
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
             <div className="flex items-center gap-4">
-              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-[#f8e8dc] text-2xl">
+              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-amber-500/10 dark:bg-amber-500/20 text-2xl">
                 🏢
               </div>
 
               <div>
-                <p className="text-sm text-gray-500">Society managed by you</p>
+                <p className="text-sm text-stone-500 dark:text-stone-400 font-medium">Society managed by you</p>
 
-                <h2 className="mt-1 text-xl font-bold text-gray-900 group-hover:text-[#C1622B]">
+                <h2 className="mt-1 text-xl font-extrabold text-stone-900 dark:text-white group-hover:text-[#C1622B] dark:group-hover:text-orange-400">
                   {managedSociety.name}
                 </h2>
 
-                <p className="mt-1 text-sm text-gray-500">
+                <p className="mt-1 text-sm text-stone-500 dark:text-stone-400 font-medium">
                   {managedSociety.location}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 text-sm font-semibold text-[#C1622B]">
+            <div className="flex items-center gap-2 text-sm font-bold text-[#C1622B] dark:text-orange-400">
               View Statistics
               <span className="text-lg transition group-hover:translate-x-1">
                 →
@@ -377,31 +407,31 @@ function SocietiesPage() {
             </div>
           </div>
 
-          <div className="mt-6 grid grid-cols-2 gap-4 border-t border-[#f0e7df] pt-5 md:grid-cols-4">
+          <div className="mt-6 grid grid-cols-2 gap-4 border-t border-stone-200 dark:border-stone-800 pt-5 md:grid-cols-4">
             <div>
-              <p className="text-xs text-gray-500">Workers</p>
-              <p className="mt-1 text-lg font-bold text-gray-900">
+              <p className="text-xs text-stone-500 dark:text-stone-400 font-medium">Workers</p>
+              <p className="mt-1 text-lg font-extrabold text-stone-900 dark:text-white">
                 {managedSociety.totalWorkers}
               </p>
             </div>
 
             <div>
-              <p className="text-xs text-gray-500">Active Workers</p>
-              <p className="mt-1 text-lg font-bold text-gray-900">
+              <p className="text-xs text-stone-500 dark:text-stone-400 font-medium">Active Workers</p>
+              <p className="mt-1 text-lg font-extrabold text-stone-900 dark:text-white">
                 {managedSociety.activeWorkers}
               </p>
             </div>
 
             <div>
-              <p className="text-xs text-gray-500">Completed Jobs</p>
-              <p className="mt-1 text-lg font-bold text-gray-900">
+              <p className="text-xs text-stone-500 dark:text-stone-400 font-medium">Completed Jobs</p>
+              <p className="mt-1 text-lg font-extrabold text-stone-900 dark:text-white">
                 {managedSociety.completedJobs}
               </p>
             </div>
 
             <div>
-              <p className="text-xs text-gray-500">Rating</p>
-              <p className="mt-1 text-lg font-bold text-gray-900">
+              <p className="text-xs text-stone-500 dark:text-stone-400 font-medium">Rating</p>
+              <p className="mt-1 text-lg font-extrabold text-stone-900 dark:text-white">
                 {managedSociety.averageRating} ⭐
               </p>
             </div>
@@ -429,15 +459,15 @@ function HomePage() {
     <div className="mx-auto max-w-7xl">
       {/* Welcome */}
       <div className="mb-10">
-        <p className="font-semibold uppercase tracking-[0.2em] text-[#C1622B]">
+        <p className="font-semibold uppercase tracking-[0.2em] text-[#C1622B] dark:text-orange-400">
           Overview
         </p>
 
-        <h1 className="mt-3 text-3xl font-bold text-gray-900 md:text-4xl">
+        <h1 className="mt-3 text-3xl font-extrabold text-stone-900 dark:text-white md:text-4xl">
           Welcome back, Admin 👋
         </h1>
 
-        <p className="mt-3 text-gray-600">
+        <p className="mt-3 text-stone-600 dark:text-stone-400 font-medium">
           Here's what's happening with your cooperative today.
         </p>
       </div>
@@ -475,16 +505,16 @@ function HomePage() {
 
       <section className="mb-10">
         <div className="mb-5">
-          <h2 className="text-2xl font-bold text-gray-900">
+          <h2 className="text-2xl font-extrabold text-stone-900 dark:text-white">
             Administrator Profile
           </h2>
 
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-stone-600 dark:text-stone-400 font-medium">
             Your federation account information.
           </p>
         </div>
 
-        <div className="rounded-3xl border border-[#eadfd4] bg-white p-6 shadow-sm md:p-8">
+        <div className="rounded-3xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900/90 p-6 shadow-sm dark:shadow-none md:p-8">
           <div className="flex flex-col gap-8 md:flex-row md:items-center">
             {/* Photo */}
             <div className="flex justify-center md:justify-start">
@@ -492,7 +522,7 @@ function HomePage() {
                 <img
                   src={adminData.photo}
                   alt={adminData.name}
-                  className="h-36 w-36 rounded-3xl object-cover ring-4 ring-[#f8e8dc] md:h-40 md:w-40"
+                  className="h-36 w-36 rounded-3xl object-cover ring-4 ring-[#C1622B]/20 md:h-40 md:w-40"
                 />
 
                 <div className="absolute -bottom-3 -right-3 flex h-10 w-10 items-center justify-center rounded-xl bg-[#C1622B] text-lg text-white shadow-md">
@@ -504,15 +534,15 @@ function HomePage() {
             {/* Details */}
             <div className="flex-1">
               <div className="mb-6">
-                <p className="text-sm font-semibold uppercase tracking-wider text-[#C1622B]">
+                <p className="text-sm font-semibold uppercase tracking-wider text-[#C1622B] dark:text-orange-400">
                   Federation Administrator
                 </p>
 
-                <h3 className="mt-2 text-2xl font-bold text-gray-900">
+                <h3 className="mt-2 text-2xl font-bold text-stone-900 dark:text-white">
                   {adminData.name}
                 </h3>
 
-                <p className="mt-1 text-gray-500">
+                <p className="mt-1 text-stone-600 dark:text-stone-400 font-medium">
                   Managing cooperative operations and worker approvals.
                 </p>
               </div>
@@ -737,36 +767,36 @@ function WorkersPage() {
     <div className="mx-auto max-w-7xl">
       {/* Page Header */}
       <div className="mb-10">
-        <p className="font-semibold uppercase tracking-[0.2em] text-[#C1622B]">
+        <p className="font-semibold uppercase tracking-[0.2em] text-[#C1622B] dark:text-orange-400">
           Management
         </p>
 
-        <h1 className="mt-3 text-3xl font-bold text-gray-900">
+        <h1 className="mt-3 text-3xl font-extrabold text-stone-900 dark:text-white">
           Approved Workers
         </h1>
 
-        <p className="mt-3 text-gray-600">
+        <p className="mt-3 text-stone-600 dark:text-stone-400 font-medium">
           View and manage workers approved by your federation.
         </p>
       </div>
 
       {/* Worker Directory */}
-      <div className="overflow-hidden rounded-3xl border border-[#eadfd4] bg-white shadow-sm">
+      <div className="overflow-hidden rounded-3xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900/90 shadow-sm dark:shadow-none">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-[#eadfd4] p-6">
+        <div className="flex items-center justify-between border-b border-stone-200 dark:border-stone-800 p-6">
           <div>
-            <h2 className="text-lg font-bold text-gray-900">
+            <h2 className="text-lg font-extrabold text-stone-900 dark:text-white">
               Worker Directory
             </h2>
 
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-stone-500 dark:text-stone-400 font-medium">
               {workersData.length} workers currently approved
             </p>
           </div>
 
           <button
             onClick={() => setIsPendingModalOpen(true)}
-            className="rounded-xl bg-[#C1622B] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#a94f22]"
+            className="rounded-xl bg-[#C1622B] dark:bg-[#E07A3E] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#a94f22]"
           >
             + Add Worker
           </button>
@@ -775,7 +805,7 @@ function WorkersPage() {
         {/* Approved Workers Table */}
         <div className="overflow-x-auto">
           <table className="w-full min-w-[650px] text-left">
-            <thead className="bg-[#faf6f0] text-xs uppercase tracking-wider text-gray-500">
+            <thead className="bg-stone-100/70 dark:bg-stone-800/80 text-xs uppercase tracking-wider text-stone-500 dark:text-stone-400 font-bold">
               <tr>
                 <th className="px-6 py-4">Worker</th>
                 <th className="px-6 py-4">Skill</th>
@@ -785,43 +815,43 @@ function WorkersPage() {
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-[#eadfd4]">
+            <tbody className="divide-y divide-stone-200 dark:divide-stone-800">
               {workersData.map((worker) => (
-                <tr key={worker.id} className="transition hover:bg-[#faf6f0]">
+                <tr key={worker.id} className="transition hover:bg-stone-100/60 dark:hover:bg-stone-800/50">
                   <td className="px-6 py-5">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f8e8dc] font-bold text-[#C1622B]">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-500/10 dark:bg-amber-500/20 font-bold text-[#C1622B] dark:text-orange-400">
                         {worker.name.charAt(0)}
                       </div>
 
                       <div>
-                        <p className="font-semibold text-gray-900">
+                        <p className="font-semibold text-stone-900 dark:text-white">
                           {worker.name}
                         </p>
 
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-stone-500 dark:text-stone-400">
                           Worker ID: WRK-{String(worker.id).padStart(3, "0")}
                         </p>
                       </div>
                     </div>
                   </td>
 
-                  <td className="px-6 py-5 text-sm text-gray-600">
+                  <td className="px-6 py-5 text-sm text-stone-600 dark:text-stone-300 font-medium">
                     {worker.skill}
                   </td>
 
-                  <td className="px-6 py-5 text-sm font-semibold text-gray-900">
+                  <td className="px-6 py-5 text-sm font-bold text-stone-900 dark:text-white">
                     ⭐ {worker.rating}
                   </td>
 
                   <td className="px-6 py-5">
-                    <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
+                    <span className="rounded-full bg-emerald-500/10 dark:bg-emerald-500/20 px-3 py-1 text-xs font-bold text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
                       {worker.status}
                     </span>
                   </td>
 
                   <td className="px-6 py-5">
-                    <button className="text-sm font-semibold text-[#C1622B] hover:underline">
+                    <button className="text-sm font-bold text-[#C1622B] dark:text-orange-400 hover:underline">
                       View Profile →
                     </button>
                   </td>
@@ -834,23 +864,23 @@ function WorkersPage() {
 
       {/* Pending Worker Requests Modal */}
       {isPendingModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 p-4">
-          <div className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-white shadow-2xl">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
+          <div className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-2xl">
             {/* Modal Header */}
-            <div className="flex items-center justify-between border-b border-[#eadfd4] p-6">
+            <div className="flex items-center justify-between border-b border-stone-200 dark:border-stone-800 p-6">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">
+                <h2 className="text-2xl font-bold text-stone-900 dark:text-white">
                   Pending Worker Requests
                 </h2>
 
-                <p className="mt-1 text-sm text-gray-500">
+                <p className="mt-1 text-sm text-stone-500 dark:text-stone-400 font-medium">
                   Review and approve workers waiting for verification.
                 </p>
               </div>
 
               <button
                 onClick={() => setIsPendingModalOpen(false)}
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-[#f8e8dc] text-gray-600 transition hover:bg-[#C1622B] hover:text-white"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 transition hover:bg-[#C1622B] hover:text-white"
               >
                 ✕
               </button>
@@ -859,8 +889,8 @@ function WorkersPage() {
             {/* Pending Requests */}
             <div className="space-y-4 p-6">
               {pendingWorkersData.length === 0 ? (
-                <div className="rounded-2xl bg-[#faf6f0] p-8 text-center">
-                  <p className="font-semibold text-gray-700">
+                <div className="rounded-2xl bg-stone-100 dark:bg-stone-800/60 p-8 text-center">
+                  <p className="font-semibold text-stone-700 dark:text-stone-300">
                     No pending worker requests
                   </p>
                 </div>
@@ -868,25 +898,25 @@ function WorkersPage() {
                 pendingWorkersData.map((worker) => (
                   <div
                     key={worker.id}
-                    className="flex flex-col gap-5 rounded-2xl border border-[#eadfd4] p-5 md:flex-row md:items-center md:justify-between"
+                    className="flex flex-col gap-5 rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900/60 p-5 md:flex-row md:items-center md:justify-between"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#f8e8dc] text-xl font-bold text-[#C1622B]">
+                      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-amber-500/10 dark:bg-amber-500/20 text-xl font-bold text-[#C1622B] dark:text-orange-400">
                         {worker.name.charAt(0)}
                       </div>
 
                       <div>
-                        <h3 className="font-bold text-gray-900">
+                        <h3 className="font-bold text-stone-900 dark:text-white">
                           {worker.name}
                         </h3>
 
-                        <p className="text-sm text-gray-600">{worker.skill}</p>
+                        <p className="text-sm text-stone-600 dark:text-stone-300 font-medium">{worker.skill}</p>
 
-                        <p className="mt-1 text-xs text-gray-500">
+                        <p className="mt-1 text-xs text-stone-500 dark:text-stone-400">
                           Phone: {worker.phone}
                         </p>
 
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-stone-500 dark:text-stone-400">
                           Requested: {worker.requestedAt}
                         </p>
                       </div>
@@ -895,12 +925,12 @@ function WorkersPage() {
                     <div className="flex gap-3">
                       <button
                         onClick={() => handleApproveWorker(worker)}
-                        className="rounded-xl bg-green-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-green-700"
+                        className="rounded-xl bg-emerald-600 dark:bg-emerald-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700"
                       >
                         Approve
                       </button>
 
-                      <button className="rounded-xl border border-red-200 px-4 py-2 text-sm font-semibold text-red-600 transition hover:bg-red-50">
+                      <button className="rounded-xl border border-red-200 dark:border-red-900/40 px-4 py-2 text-sm font-semibold text-red-600 dark:text-red-400 transition hover:bg-red-50 dark:hover:bg-red-950/40">
                         Reject
                       </button>
                     </div>
@@ -914,34 +944,34 @@ function WorkersPage() {
 
       {/* One-Time Temporary Code Modal */}
       {temporaryCode && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-md rounded-3xl bg-white p-8 text-center shadow-2xl">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-3xl">
+        <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
+          <div className="w-full max-w-md rounded-3xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 p-8 text-center shadow-2xl">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-3xl">
               ✓
             </div>
 
-            <h2 className="mt-5 text-2xl font-bold text-gray-900">
+            <h2 className="mt-5 text-2xl font-bold text-stone-900 dark:text-white">
               Worker Approved
             </h2>
 
-            <p className="mt-2 text-sm text-gray-600">
+            <p className="mt-2 text-sm text-stone-600 dark:text-stone-300 font-medium">
               {selectedWorker?.name} has been approved successfully.
             </p>
 
-            <div className="mt-6 rounded-2xl border border-orange-200 bg-[#fff8f2] p-5">
-              <p className="text-sm font-semibold text-gray-700">
+            <div className="mt-6 rounded-2xl border border-orange-200 dark:border-orange-900/40 bg-[#fff8f2] dark:bg-stone-800/80 p-5">
+              <p className="text-sm font-semibold text-stone-700 dark:text-stone-300">
                 Temporary Worker Code
               </p>
 
-              <p className="mt-3 text-4xl font-bold tracking-[0.35em] text-[#C1622B]">
+              <p className="mt-3 text-4xl font-extrabold tracking-[0.35em] text-[#C1622B] dark:text-orange-400">
                 {temporaryCode}
               </p>
 
-              <p className="mt-4 text-xs font-semibold text-red-600">
+              <p className="mt-4 text-xs font-semibold text-red-600 dark:text-red-400">
                 This code will be displayed only once.
               </p>
 
-              <p className="mt-1 text-xs text-gray-500">
+              <p className="mt-1 text-xs text-stone-500 dark:text-stone-400">
                 Copy and securely share this code with the worker now.
               </p>
             </div>
@@ -949,14 +979,14 @@ function WorkersPage() {
             <div className="mt-6 flex gap-3">
               <button
                 onClick={handleCopyCode}
-                className="flex-1 rounded-xl bg-[#C1622B] px-4 py-3 font-semibold text-white transition hover:bg-[#a94f22]"
+                className="flex-1 rounded-xl bg-[#C1622B] dark:bg-[#E07A3E] px-4 py-3 font-semibold text-white transition hover:bg-[#a94f22]"
               >
                 {copied ? "✓ Code Copied" : "Copy Code"}
               </button>
 
               <button
                 onClick={closeTemporaryCode}
-                className="flex-1 rounded-xl border border-[#eadfd4] px-4 py-3 font-semibold text-gray-700 transition hover:bg-[#faf6f0]"
+                className="flex-1 rounded-xl border border-stone-200 dark:border-stone-700 px-4 py-3 font-semibold text-stone-700 dark:text-stone-300 transition hover:bg-stone-100 dark:hover:bg-stone-800"
               >
                 Close
               </button>
@@ -973,20 +1003,20 @@ function WorkersPage() {
 
 function SummaryCard({ icon, title, value, description }) {
   return (
-    <div className="rounded-2xl border border-[#eadfd4] bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md">
+    <div className="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900/90 p-6 shadow-sm dark:shadow-none transition duration-300 hover:-translate-y-1 hover:shadow-md">
       <div className="flex items-center justify-between">
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#f8e8dc] text-2xl">
+        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-500/10 dark:bg-amber-500/20 text-2xl">
           {icon}
         </div>
 
-        <span className="text-xs font-semibold text-green-600">↑</span>
+        <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">↑</span>
       </div>
 
-      <p className="mt-5 text-sm font-medium text-gray-500">{title}</p>
+      <p className="mt-5 text-sm font-medium text-stone-500 dark:text-stone-400">{title}</p>
 
-      <h3 className="mt-2 text-3xl font-bold text-gray-900">{value}</h3>
+      <h3 className="mt-2 text-3xl font-extrabold text-stone-900 dark:text-white">{value}</h3>
 
-      <p className="mt-2 text-xs text-gray-500">{description}</p>
+      <p className="mt-2 text-xs text-stone-500 dark:text-stone-400">{description}</p>
     </div>
   );
 }
@@ -994,11 +1024,11 @@ function SummaryCard({ icon, title, value, description }) {
 function ProfileDetail({ label, value }) {
   return (
     <div>
-      <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+      <p className="text-xs font-bold uppercase tracking-wider text-stone-400 dark:text-stone-500">
         {label}
       </p>
 
-      <p className="mt-1 break-words text-sm font-semibold text-gray-900">
+      <p className="mt-1 break-words text-sm font-bold text-stone-900 dark:text-white">
         {value}
       </p>
     </div>
@@ -1007,11 +1037,11 @@ function ProfileDetail({ label, value }) {
 
 function ChartCard({ title, description, children }) {
   return (
-    <div className="rounded-3xl border border-[#eadfd4] bg-white p-6 shadow-sm md:p-8">
+    <div className="rounded-3xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900/90 p-6 shadow-sm dark:shadow-none md:p-8">
       <div className="mb-8">
-        <h2 className="text-xl font-bold text-gray-900">{title}</h2>
+        <h2 className="text-xl font-extrabold text-stone-900 dark:text-white">{title}</h2>
 
-        <p className="mt-1 text-sm text-gray-500">{description}</p>
+        <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">{description}</p>
       </div>
 
       {children}
@@ -1023,24 +1053,24 @@ function PlaceholderPage({ title, description, icon }) {
   return (
     <div className="mx-auto max-w-7xl">
       <div className="mb-10">
-        <p className="font-semibold uppercase tracking-[0.2em] text-[#C1622B]">
+        <p className="font-extrabold uppercase tracking-[0.2em] text-[#C1622B] dark:text-orange-400">
           Federation Admin
         </p>
 
-        <h1 className="mt-3 text-3xl font-bold text-gray-900">{title}</h1>
+        <h1 className="mt-3 text-3xl font-extrabold text-stone-900 dark:text-white">{title}</h1>
 
-        <p className="mt-3 text-gray-600">{description}</p>
+        <p className="mt-3 text-stone-600 dark:text-stone-300 font-medium">{description}</p>
       </div>
 
-      <div className="flex min-h-[400px] items-center justify-center rounded-3xl border border-[#eadfd4] bg-white shadow-sm">
+      <div className="flex min-h-[400px] items-center justify-center rounded-3xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900/90 shadow-sm dark:shadow-none">
         <div className="text-center">
           <div className="text-5xl">{icon}</div>
 
-          <h2 className="mt-5 text-2xl font-bold text-gray-900">
+          <h2 className="mt-5 text-2xl font-extrabold text-stone-900 dark:text-white">
             {title} Page
           </h2>
 
-          <p className="mt-2 text-gray-500">
+          <p className="mt-2 text-stone-500 dark:text-stone-400">
             This section is ready for your next feature.
           </p>
         </div>

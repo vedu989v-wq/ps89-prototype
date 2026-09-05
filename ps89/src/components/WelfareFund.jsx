@@ -174,15 +174,15 @@ function WelfareFund() {
       {/* Header */}
       <div className="mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-end">
         <div>
-          <p className="font-semibold uppercase tracking-[0.2em] text-[#C1622B]">
+          <p className="font-semibold uppercase tracking-[0.2em] text-[#C1622B] dark:text-orange-400">
             Worker Welfare
           </p>
 
-          <h1 className="mt-3 text-3xl font-bold text-gray-900">
+          <h1 className="mt-3 text-3xl font-extrabold text-stone-900 dark:text-white">
             Welfare Fund
           </h1>
 
-          <p className="mt-3 max-w-2xl text-gray-600">
+          <p className="mt-3 max-w-2xl text-stone-600 dark:text-stone-400 font-medium">
             Manage the common emergency fund created through worker
             contributions.
           </p>
@@ -191,14 +191,14 @@ function WelfareFund() {
         <div className="flex flex-wrap gap-3">
           <button
             onClick={() => setIsContributionModalOpen(true)}
-            className="rounded-xl border border-[#C1622B] px-4 py-3 text-sm font-semibold text-[#C1622B] hover:bg-[#f8e8dc]"
+            className="rounded-xl border border-[#C1622B] dark:border-orange-400 px-4 py-3 text-sm font-semibold text-[#C1622B] dark:text-orange-400 hover:bg-amber-500/10"
           >
             + Add Contribution
           </button>
 
           <button
             onClick={() => setIsAssistanceModalOpen(true)}
-            className="rounded-xl bg-[#C1622B] px-4 py-3 text-sm font-semibold text-white hover:bg-[#a94f22]"
+            className="rounded-xl bg-[#C1622B] dark:bg-[#E07A3E] px-4 py-3 text-sm font-semibold text-white hover:bg-[#a94f22]"
           >
             + Emergency Request
           </button>
@@ -237,12 +237,12 @@ function WelfareFund() {
       </div>
 
       {/* Contribution Rule */}
-      <div className="mb-8 rounded-3xl border border-[#eadfd4] bg-[#fff8f2] p-6">
-        <h2 className="text-lg font-bold text-gray-900">
+      <div className="mb-8 rounded-3xl border border-orange-200 dark:border-orange-900/40 bg-[#fff8f2] dark:bg-stone-900/90 p-6">
+        <h2 className="text-lg font-bold text-stone-900 dark:text-white">
           Contribution Rule
         </h2>
 
-        <p className="mt-2 text-sm leading-6 text-gray-600">
+        <p className="mt-2 text-sm leading-6 text-stone-600 dark:text-stone-300 font-medium">
           For every ₹100 paid by customer, ₹10 is deposited into the common
           welfare fund. The remaining ₹90 is paid to the worker.
         </p>
@@ -255,14 +255,14 @@ function WelfareFund() {
       </div>
 
       {/* Contribution History */}
-      <section className="mb-8 rounded-3xl border border-[#eadfd4] bg-white shadow-sm">
-        <div className="flex flex-col justify-between gap-4 border-b border-[#eadfd4] p-6 md:flex-row md:items-center">
+      <section className="mb-8 rounded-3xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900/90 shadow-sm dark:shadow-none">
+        <div className="flex flex-col justify-between gap-4 border-b border-stone-200 dark:border-stone-800 p-6 md:flex-row md:items-center">
           <div>
-            <h2 className="text-xl font-bold text-gray-900">
+            <h2 className="text-xl font-bold text-stone-900 dark:text-white">
               Contribution History
             </h2>
 
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-stone-500 dark:text-stone-400 font-medium">
               Payments and their welfare fund deductions.
             </p>
           </div>
@@ -270,7 +270,7 @@ function WelfareFund() {
 
         <div className="overflow-x-auto">
           <table className="w-full min-w-[750px] text-left">
-            <thead className="bg-[#faf6f0] text-xs uppercase tracking-wider text-gray-500">
+            <thead className="bg-stone-100/70 dark:bg-stone-800/80 text-xs uppercase tracking-wider text-stone-500 dark:text-stone-400 font-bold">
               <tr>
                 <th className="px-6 py-4">Worker</th>
                 <th className="px-6 py-4">Total Payment</th>
@@ -280,32 +280,32 @@ function WelfareFund() {
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-[#eadfd4]">
+            <tbody className="divide-y divide-stone-200 dark:divide-stone-800">
               {transactions.map((transaction) => (
-                <tr key={transaction.id} className="hover:bg-[#faf6f0]">
+                <tr key={transaction.id} className="hover:bg-stone-100/60 dark:hover:bg-stone-800/50 transition">
                   <td className="px-6 py-5">
-                    <p className="font-semibold text-gray-900">
+                    <p className="font-semibold text-stone-900 dark:text-white">
                       {transaction.worker}
                     </p>
 
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-stone-500 dark:text-stone-400">
                       {transaction.workerId}
                     </p>
                   </td>
 
-                  <td className="px-6 py-5 font-semibold text-gray-900">
+                  <td className="px-6 py-5 font-bold text-stone-900 dark:text-white">
                     ₹{transaction.payment.toLocaleString("en-IN")}
                   </td>
 
-                  <td className="px-6 py-5 text-sm text-gray-600">
+                  <td className="px-6 py-5 text-sm text-stone-600 dark:text-stone-300 font-medium">
                     ₹{transaction.workerShare.toLocaleString("en-IN")}
                   </td>
 
-                  <td className="px-6 py-5 font-semibold text-green-700">
+                  <td className="px-6 py-5 font-bold text-emerald-600 dark:text-emerald-400">
                     ₹{transaction.fundContribution.toLocaleString("en-IN")}
                   </td>
 
-                  <td className="px-6 py-5 text-sm text-gray-500">
+                  <td className="px-6 py-5 text-sm text-stone-500 dark:text-stone-400">
                     {transaction.date}
                   </td>
                 </tr>
@@ -316,13 +316,13 @@ function WelfareFund() {
       </section>
 
       {/* Emergency Assistance */}
-      <section className="rounded-3xl border border-[#eadfd4] bg-white shadow-sm">
-        <div className="border-b border-[#eadfd4] p-6">
-          <h2 className="text-xl font-bold text-gray-900">
+      <section className="rounded-3xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900/90 shadow-sm dark:shadow-none">
+        <div className="border-b border-stone-200 dark:border-stone-800 p-6">
+          <h2 className="text-xl font-bold text-stone-900 dark:text-white">
             Emergency Assistance Requests
           </h2>
 
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-stone-500 dark:text-stone-400 font-medium">
             Review requests submitted by federation workers.
           </p>
         </div>
@@ -331,22 +331,22 @@ function WelfareFund() {
           {assistanceRequests.map((request) => (
             <div
               key={request.id}
-              className="flex flex-col justify-between gap-5 rounded-2xl border border-[#eadfd4] p-5 md:flex-row md:items-center"
+              className="flex flex-col justify-between gap-5 rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900/60 p-5 md:flex-row md:items-center"
             >
               <div>
-                <h3 className="font-bold text-gray-900">
+                <h3 className="font-bold text-stone-900 dark:text-white">
                   {request.worker}
                 </h3>
 
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-stone-500 dark:text-stone-400 font-medium">
                   {request.workerId}
                 </p>
 
-                <p className="mt-2 text-sm text-gray-600">
+                <p className="mt-2 text-sm text-stone-600 dark:text-stone-300 font-medium">
                   Reason: {request.reason}
                 </p>
 
-                <p className="mt-1 text-sm font-semibold text-gray-900">
+                <p className="mt-1 text-sm font-bold text-stone-900 dark:text-white">
                   Requested Amount: ₹
                   {request.amount.toLocaleString("en-IN")}
                 </p>
@@ -354,12 +354,12 @@ function WelfareFund() {
 
               <div className="flex flex-wrap items-center gap-3">
                 <span
-                  className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                  className={`rounded-full px-3 py-1 text-xs font-bold ${
                     request.status === "Approved"
-                      ? "bg-green-50 text-green-700"
+                      ? "bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20"
                       : request.status === "Rejected"
-                      ? "bg-red-50 text-red-700"
-                      : "bg-yellow-50 text-yellow-700"
+                      ? "bg-rose-500/10 dark:bg-rose-500/20 text-rose-700 dark:text-rose-400 border border-rose-500/20"
+                      : "bg-amber-500/10 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400 border border-amber-500/20"
                   }`}
                 >
                   {request.status}
@@ -371,7 +371,7 @@ function WelfareFund() {
                       onClick={() =>
                         handleAssistanceStatus(request.id, "Approved")
                       }
-                      className="rounded-xl bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700"
+                      className="rounded-xl bg-emerald-600 dark:bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700"
                     >
                       Approve
                     </button>
@@ -380,7 +380,7 @@ function WelfareFund() {
                       onClick={() =>
                         handleAssistanceStatus(request.id, "Rejected")
                       }
-                      className="rounded-xl border border-red-200 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50"
+                      className="rounded-xl border border-red-200 dark:border-red-900/40 px-4 py-2 text-sm font-semibold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40"
                     >
                       Reject
                     </button>
@@ -395,18 +395,18 @@ function WelfareFund() {
       {/* Add Contribution Modal */}
       {isContributionModalOpen && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs"
           onClick={() => setIsContributionModalOpen(false)}
         >
           <div
-            className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl md:p-8"
+            className="w-full max-w-lg rounded-3xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 p-6 shadow-2xl md:p-8"
             onClick={(event) => event.stopPropagation()}
           >
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-2xl font-bold text-stone-900 dark:text-white">
               Add Worker Contribution
             </h2>
 
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-stone-500 dark:text-stone-400 font-medium">
               Enter the worker's total payment. The fund contribution will be
               calculated automatically.
             </p>
@@ -453,7 +453,7 @@ function WelfareFund() {
               />
 
               {newContribution.payment && (
-                <div className="rounded-2xl bg-[#faf6f0] p-4 text-sm">
+                <div className="rounded-2xl bg-stone-100 dark:bg-stone-800 p-4 text-sm text-stone-700 dark:text-stone-300">
                   <p>
                     Worker receives:{" "}
                     <strong>
@@ -474,14 +474,14 @@ function WelfareFund() {
                 <button
                   type="button"
                   onClick={() => setIsContributionModalOpen(false)}
-                  className="flex-1 rounded-xl border border-[#eadfd4] px-4 py-3 font-semibold text-gray-700 hover:bg-[#faf6f0]"
+                  className="flex-1 rounded-xl border border-stone-200 dark:border-stone-700 px-4 py-3 font-semibold text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800"
                 >
                   Cancel
                 </button>
 
                 <button
                   type="submit"
-                  className="flex-1 rounded-xl bg-[#C1622B] px-4 py-3 font-semibold text-white hover:bg-[#a94f22]"
+                  className="flex-1 rounded-xl bg-[#C1622B] dark:bg-[#E07A3E] px-4 py-3 font-semibold text-white hover:bg-[#a94f22]"
                 >
                   Add Contribution
                 </button>
@@ -494,18 +494,18 @@ function WelfareFund() {
       {/* Emergency Request Modal */}
       {isAssistanceModalOpen && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs"
           onClick={() => setIsAssistanceModalOpen(false)}
         >
           <div
-            className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl md:p-8"
+            className="w-full max-w-lg rounded-3xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 p-6 shadow-2xl md:p-8"
             onClick={(event) => event.stopPropagation()}
           >
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-2xl font-bold text-stone-900 dark:text-white">
               Emergency Assistance Request
             </h2>
 
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-stone-500 dark:text-stone-400 font-medium">
               Record an emergency financial assistance request.
             </p>
 
@@ -567,14 +567,14 @@ function WelfareFund() {
                 <button
                   type="button"
                   onClick={() => setIsAssistanceModalOpen(false)}
-                  className="flex-1 rounded-xl border border-[#eadfd4] px-4 py-3 font-semibold text-gray-700 hover:bg-[#faf6f0]"
+                  className="flex-1 rounded-xl border border-stone-200 dark:border-stone-700 px-4 py-3 font-semibold text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800"
                 >
                   Cancel
                 </button>
 
                 <button
                   type="submit"
-                  className="flex-1 rounded-xl bg-[#C1622B] px-4 py-3 font-semibold text-white hover:bg-[#a94f22]"
+                  className="flex-1 rounded-xl bg-[#C1622B] dark:bg-[#E07A3E] px-4 py-3 font-semibold text-white hover:bg-[#a94f22]"
                 >
                   Submit Request
                 </button>
@@ -589,14 +589,14 @@ function WelfareFund() {
 
 function FundCard({ title, value, icon }) {
   return (
-    <div className="rounded-2xl border border-[#eadfd4] bg-white p-6 shadow-sm">
+    <div className="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900/90 p-6 shadow-sm">
       <div className="text-2xl">{icon}</div>
 
-      <p className="mt-4 text-sm text-gray-500">
+      <p className="mt-4 text-sm text-stone-500 dark:text-stone-400 font-medium">
         {title}
       </p>
 
-      <h3 className="mt-1 text-2xl font-bold text-gray-900">
+      <h3 className="mt-1 text-2xl font-extrabold text-stone-900 dark:text-white">
         {value}
       </h3>
     </div>
@@ -605,9 +605,9 @@ function FundCard({ title, value, icon }) {
 
 function RuleCard({ label, value }) {
   return (
-    <div className="rounded-2xl border border-[#eadfd4] bg-white p-4">
-      <p className="text-xs text-gray-500">{label}</p>
-      <p className="mt-1 text-xl font-bold text-[#C1622B]">{value}</p>
+    <div className="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900/90 p-4">
+      <p className="text-xs text-stone-500 dark:text-stone-400 font-medium">{label}</p>
+      <p className="mt-1 text-xl font-extrabold text-[#C1622B] dark:text-orange-400">{value}</p>
     </div>
   );
 }
@@ -622,7 +622,7 @@ function InputField({
 }) {
   return (
     <div>
-      <label className="mb-2 block text-sm font-semibold text-gray-700">
+      <label className="mb-2 block text-sm font-bold text-stone-700 dark:text-stone-300">
         {label}
       </label>
 
@@ -632,7 +632,7 @@ function InputField({
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
         required={required}
-        className="w-full rounded-xl border border-[#eadfd4] px-4 py-3 text-sm outline-none focus:border-[#C1622B] focus:ring-2 focus:ring-[#f8e8dc]"
+        className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 px-4 py-3 text-sm outline-none focus:border-[#C1622B]"
       />
     </div>
   );
