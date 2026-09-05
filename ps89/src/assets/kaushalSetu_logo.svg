@@ -1,0 +1,21 @@
+<svg id="app-icon" width="256" height="256" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    
+                    <!-- Optional: White rounded background if needed for the app icon -->
+                    <rect width="512" height="512" rx="115" fill="#FAF8F5"></rect>
+                    
+                    <!-- Shield Base -->
+                    <path d="M 256 64 L 448 128 L 448 288 C 448 427 256 480 256 480 C 256 480 64 427 64 288 L 64 128 Z" fill="#2D5A3D"></path>
+                    
+                    <!-- Worker Inside -->
+                    <circle cx="256" cy="235" r="64" fill="#FAF8F5"></circle>
+                    <!-- Hard Hat -->
+                    <path d="M 170 235 C 170 165 342 165 342 235 Z" fill="#E8A93B"></path>
+                    <rect x="150" y="225" width="212" height="18" rx="9" fill="#E8A93B"></rect>
+                    <!-- Shoulders -->
+                    <path d="M 136 415 C 136 315 376 315 376 415 Z" fill="#FAF8F5"></path>
+                    
+                    <!-- Verification Badge Overlap -->
+                    <circle cx="410" cy="400" r="90" fill="#C1622B" stroke="#FAF8F5" stroke-width="16"></circle>
+                    <!-- Checkmark -->
+                    <path d="M 355 405 L 395 445 L 465 365" stroke="#FAF8F5" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+                </svg>

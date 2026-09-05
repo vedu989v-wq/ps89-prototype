@@ -79,21 +79,21 @@ function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      className="bg-[#faf6f0] px-6 py-24 md:py-32"
+      className="bg-[#FAF6F0] dark:bg-[#111311] px-6 py-24 md:py-32 transition-colors duration-300 border-t border-stone-200/80 dark:border-stone-800/80"
     >
       <div className="mx-auto max-w-7xl">
 
         {/* Heading */}
         <div className="mb-16 text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-[#C1622B]">
+          <p className="mb-3 text-xs font-extrabold uppercase tracking-[0.25em] text-[#C1622B] dark:text-[#E07A3E]">
             Our Process
           </p>
 
-          <h2 className="text-4xl font-bold text-gray-900 md:text-5xl">
+          <h2 className="text-3xl font-extrabold text-stone-900 dark:text-white sm:text-4xl md:text-5xl tracking-tight">
             How It Works
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-gray-600">
+          <p className="mx-auto mt-5 max-w-2xl text-stone-600 dark:text-stone-300 font-medium">
             From the first idea to the final result, we follow a simple
             process to turn your vision into reality.
           </p>
@@ -104,23 +104,23 @@ function HowItWorks() {
           {visibleSteps.map((step) => (
             <div
               key={step.id}
-              className="group rounded-2xl border border-gray-200 bg-white p-8 shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-xl"
+              className="group rounded-2xl border border-stone-200 dark:border-white/10 bg-white dark:bg-stone-900/80 p-8 shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-xl"
             >
               <div className="mb-6 flex items-center justify-between">
-                <span className="text-5xl font-bold text-[#C1622B]/20">
+                <span className="text-5xl font-bold text-[#C1622B]/20 dark:text-[#E07A3E]/30">
                   {step.number}
                 </span>
 
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#faf6f0] text-[#C1622B]">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-stone-100 dark:bg-stone-800 text-[#C1622B] dark:text-[#E07A3E]">
                   →
                 </div>
               </div>
 
-              <h3 className="mb-3 text-xl font-semibold text-gray-900">
+              <h3 className="mb-3 text-xl font-bold text-stone-900 dark:text-white">
                 {step.title}
               </h3>
 
-              <p className="leading-7 text-gray-600">
+              <p className="leading-7 text-stone-600 dark:text-stone-300 font-medium">
                 {step.description}
               </p>
             </div>
@@ -134,8 +134,8 @@ function HowItWorks() {
               key={index}
               className={`h-2 rounded-full transition-all duration-500 ${
                 index === startIndex
-                  ? "w-8 bg-[#C1622B]"
-                  : "w-2 bg-gray-300"
+                  ? "w-8 bg-[#C1622B] dark:bg-[#E07A3E]"
+                  : "w-2 bg-stone-300 dark:bg-stone-700"
               }`}
             />
           ))}
