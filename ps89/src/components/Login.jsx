@@ -193,7 +193,7 @@ function Login() {
                   <div>
                     <label
                       htmlFor="fedAdCode"
-                      className="mb-2 block text-sm font-semibold text-gray-700"
+                      className="mb-2 block text-sm font-semibold text-[#373737]"
                     >
                       Federation Admin Code
                     </label>
@@ -217,7 +217,7 @@ function Login() {
                   <div>
                     <label
                       htmlFor="email"
-                      className="mb-2 block text-sm font-semibold text-gray-700"
+                      className="mb-2 block text-sm font-semibold text-[#373737]"
                     >
                       Email address
                     </label>
@@ -238,7 +238,7 @@ function Login() {
                 <div>
                   <label
                     htmlFor="password"
-                    className="mb-2 block text-sm font-semibold text-gray-700"
+                    className="mb-2 block text-sm font-semibold text-[#373737]"
                   >
                     Password
                   </label>
