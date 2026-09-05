@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Sun, Moon } from "lucide-react";
 import admins from "../data/admin.json";
 import workers from "../data/workerdata.json";
 import consumers from "../data/consumerdata.json";
@@ -9,27 +10,44 @@ function Login() {
   const [fedAdCode, setFedAdCode] = useState("");
   const [loginError, setLoginError] = useState("");
   const [email, setEmail] = useState("");
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (document.documentElement.classList.contains("dark")) {
+      setIsDarkMode(true);
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    if (isDarkMode) {
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
+      setIsDarkMode(false);
+    } else {
+      document.documentElement.classList.remove("light");
+      document.documentElement.classList.add("dark");
+      setIsDarkMode(true);
+    }
+  };
 
   const roles = [
     {
       id: "admin",
       title: "Admin",
-      description:
-        "Manage societies, workers, bookings, and platform operations.",
+      description: "Manage societies, workers, bookings, and platform operations.",
       icon: "⚙️",
     },
     {
       id: "consumer",
-      title: "Consumer",
+      title: "Household",
       description: "Book trusted cooperative workers for your service needs.",
       icon: "🏠",
     },
     {
       id: "worker",
       title: "Worker",
-      description:
-        "Manage your services, bookings, earnings, and availability.",
+      description: "Manage your services, bookings, earnings, and availability.",
       icon: "🛠️",
     },
   ];
@@ -38,7 +56,6 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     setLoginError("");
 
     const password = e.target.password.value;
@@ -48,7 +65,7 @@ function Login() {
       const matchedAdmin = admins.find(
         (admin) =>
           admin.fedAdCode.toLowerCase() === fedAdCode.trim().toLowerCase() &&
-          admin.password === password,
+          admin.password === password
       );
 
       if (!matchedAdmin) {
@@ -56,25 +73,22 @@ function Login() {
         return;
       }
 
-      // Save temporary login information.
-      // Later, this will be replaced by a real authentication token.
       localStorage.setItem(
         "adminUser",
         JSON.stringify({
           id: matchedAdmin.id,
           name: matchedAdmin.name,
           role: matchedAdmin.role,
-        }),
+        })
       );
 
       navigate("/admin-dashboard");
       return;
     }
-
-    // Consumer and Worker login for now
-    else if (selectedRole == "worker") {
+    // Worker login
+    else if (selectedRole === "worker") {
       const worker = workers.find(
-        (user) => user.email === email && user.password === password,
+        (user) => user.email === email && user.password === password
       );
 
       if (!worker) {
@@ -83,11 +97,12 @@ function Login() {
       }
 
       localStorage.setItem("loggedInWorker", JSON.stringify(worker));
-
       navigate("/worker-dashboard");
-    } else if (selectedRole === "consumer") {
+    } 
+    // Consumer login
+    else if (selectedRole === "consumer") {
       const consumer = consumers.find(
-        (user) => user.email === email && user.password === password,
+        (user) => user.email === email && user.password === password
       );
 
       if (!consumer) {
@@ -95,95 +110,110 @@ function Login() {
         return;
       }
       localStorage.setItem("loggedInConsumer", JSON.stringify(consumer));
-
       navigate("/consumer-dashboard");
       return;
     }
-
-    // Later, connect this to your backend authentication API.
   };
 
   return (
-    <div className="min-h-screen bg-[#faf6f0] px-6 py-12">
-      {/* Header */}
-      <div className="mx-auto max-w-6xl">
+    <div className="min-h-screen bg-[#FAF6F0] dark:bg-[#111311] text-stone-900 dark:text-stone-100 transition-colors duration-300 px-6 py-12 relative">
+      
+      {/* Top Header & Theme Toggle */}
+      <div className="mx-auto max-w-6xl flex items-center justify-between">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 transition hover:text-[#C1622B]"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-stone-600 dark:text-stone-300 transition hover:text-[#C1622B] dark:hover:text-orange-400"
         >
           ← Back to home
         </Link>
 
-        <div className="mt-12 text-center">
-          <p className="font-semibold uppercase tracking-[0.2em] text-[#C1622B]">
-            Cooperative Services
+        {/* Sun/Moon Theme Toggle Button */}
+        <button
+          onClick={toggleTheme}
+          type="button"
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-300 dark:border-stone-700 bg-white/90 dark:bg-stone-800/90 text-stone-800 dark:text-stone-100 transition-all duration-200 hover:scale-105 shadow-sm"
+          aria-label={isDarkMode ? "Switch to light theme" : "Switch to dark theme"}
+        >
+          {isDarkMode ? (
+            <Sun className="h-4.5 w-4.5 text-amber-400" />
+          ) : (
+            <Moon className="h-4.5 w-4.5 text-stone-800" />
+          )}
+        </button>
+      </div>
+
+      <div className="mx-auto max-w-6xl mt-6">
+        <div className="text-center">
+          <p className="font-extrabold uppercase tracking-[0.25em] text-[#C1622B] dark:text-orange-400 text-xs sm:text-sm">
+            Cooperative Services Platform
           </p>
 
-          <h1 className="mt-4 text-4xl font-bold text-gray-900 md:text-5xl">
-            Welcome back
+          <h1 className="mt-4 text-4xl font-extrabold text-stone-900 dark:text-white md:text-5xl">
+            Welcome Back
           </h1>
 
-          <p className="mx-auto mt-4 max-w-2xl text-gray-600">
+          <p className="mx-auto mt-3 max-w-2xl text-stone-600 dark:text-stone-300 font-medium">
             Choose your role to access your cooperative service account.
           </p>
         </div>
 
-        {/* Role selection */}
+        {/* Role Selection Screen */}
         {!selectedRole && (
           <div className="mt-14 grid gap-6 md:grid-cols-3">
             {roles.map((role) => (
               <button
                 key={role.id}
                 onClick={() => setSelectedRole(role.id)}
-                className="group rounded-3xl border border-[#eadfd4] bg-white p-8 text-left shadow-sm transition duration-300 hover:-translate-y-2 hover:border-[#C1622B] hover:shadow-xl"
+                className="group rounded-3xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900/90 p-8 text-left shadow-sm transition duration-300 hover:-translate-y-2 hover:border-[#C1622B] dark:hover:border-orange-400 hover:shadow-xl"
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#f8e8dc] text-3xl transition group-hover:bg-[#C1622B]">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-500/10 text-3xl transition group-hover:bg-[#C1622B] group-hover:text-white dark:bg-amber-500/20">
                     {role.icon}
                   </div>
 
-                  <span className="text-2xl text-gray-300 transition group-hover:text-[#C1622B]">
+                  <span className="text-2xl text-stone-400 transition group-hover:text-[#C1622B] dark:group-hover:text-orange-400">
                     →
                   </span>
                 </div>
 
-                <h2 className="mt-8 text-2xl font-bold text-gray-900">
+                <h2 className="mt-8 text-2xl font-extrabold text-stone-900 dark:text-white">
                   {role.title}
                 </h2>
 
-                <p className="mt-3 min-h-[72px] leading-relaxed text-gray-600">
+                <p className="mt-3 min-h-[72px] leading-relaxed text-stone-600 dark:text-stone-300 font-medium">
                   {role.description}
                 </p>
 
-                <div className="mt-6 font-semibold text-[#C1622B]">
-                  Continue as {role.title} →
+                <div className="mt-6 font-bold text-[#C1622B] dark:text-orange-400 flex items-center gap-1">
+                  <span>Continue as {role.title}</span>
+                  <span>→</span>
                 </div>
               </button>
             ))}
           </div>
         )}
 
-        {/* Login form */}
+        {/* Login Form Screen */}
         {selectedRole && (
           <div className="mx-auto mt-12 max-w-md">
             <button
               onClick={() => setSelectedRole(null)}
-              className="mb-6 text-sm font-medium text-gray-600 transition hover:text-[#C1622B]"
+              className="mb-6 text-sm font-semibold text-stone-600 dark:text-stone-300 transition hover:text-[#C1622B] dark:hover:text-orange-400"
             >
               ← Choose a different role
             </button>
 
-            <div className="rounded-3xl border border-[#eadfd4] bg-white p-8 shadow-xl sm:p-10">
+            <div className="rounded-3xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900/90 p-8 shadow-2xl sm:p-10">
               <div className="mb-8 text-center">
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#f8e8dc] text-3xl">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-500/10 dark:bg-amber-500/20 text-3xl">
                   {selectedRoleData.icon}
                 </div>
 
-                <h2 className="mt-5 text-3xl font-bold text-gray-900">
+                <h2 className="mt-5 text-3xl font-extrabold text-stone-900 dark:text-white">
                   {selectedRoleData.title} Login
                 </h2>
 
-                <p className="mt-2 text-gray-500">
+                <p className="mt-2 text-stone-500 dark:text-stone-400 text-sm font-medium">
                   Sign in to continue to your account.
                 </p>
               </div>
@@ -193,11 +223,12 @@ function Login() {
                   <div>
                     <label
                       htmlFor="fedAdCode"
-                      className="mb-2 block text-sm font-semibold text-gray-700"
+                      className="mb-2 block text-sm font-bold text-stone-700 dark:text-stone-300"
                     >
                       Federation Admin Code
                     </label>
 
+                    {/* Requirement 2: Strict Contrast Classes for Inputs */}
                     <input
                       id="fedAdCode"
                       name="fedAdCode"
@@ -206,20 +237,20 @@ function Login() {
                       value={fedAdCode}
                       onChange={(e) => setFedAdCode(e.target.value)}
                       required
-                      className="w-full rounded-xl border border-gray-300 px-4 py-3 uppercase outline-none transition focus:border-[#C1622B] focus:ring-2 focus:ring-orange-100"
+                      className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 px-4 py-3 uppercase outline-none transition focus:border-[#C1622B] dark:focus:border-orange-400 focus:ring-2 focus:ring-[#C1622B]/20"
                     />
 
-                    <p className="mt-2 text-xs text-gray-500">
-                      Use the code provided by your federation.
+                    <p className="mt-1 text-xs text-stone-500 dark:text-stone-400">
+                      Use the code provided by your federation (e.g. FED-AD-001).
                     </p>
                   </div>
                 ) : (
                   <div>
                     <label
                       htmlFor="email"
-                      className="mb-2 block text-sm font-semibold text-gray-700"
+                      className="mb-2 block text-sm font-bold text-stone-700 dark:text-stone-300"
                     >
-                      Email address
+                      Email Address
                     </label>
 
                     <input
@@ -230,59 +261,69 @@ function Login() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
-                      className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-[#C1622B] focus:ring-2 focus:ring-orange-100"
+                      className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 px-4 py-3 outline-none transition focus:border-[#C1622B] dark:focus:border-orange-400 focus:ring-2 focus:ring-[#C1622B]/20"
                     />
+                    <p className="mt-1 text-xs text-stone-500 dark:text-stone-400">
+                      {selectedRole === "worker"
+                        ? "Demo email: ramesh@gmail.com"
+                        : "Demo email: ananya@example.com"}
+                    </p>
                   </div>
                 )}
 
                 <div>
                   <label
                     htmlFor="password"
-                    className="mb-2 block text-sm font-semibold text-gray-700"
+                    className="mb-2 block text-sm font-bold text-stone-700 dark:text-stone-300"
                   >
                     Password
                   </label>
 
+                  {/* Requirement 2: Strict Contrast Password Input */}
                   <input
                     id="password"
                     name="password"
                     type="password"
                     placeholder="Enter your password"
                     required
-                    className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-[#C1622B] focus:ring-2 focus:ring-orange-100"
+                    className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 px-4 py-3 outline-none transition focus:border-[#C1622B] dark:focus:border-orange-400 focus:ring-2 focus:ring-[#C1622B]/20"
                   />
+                  <p className="mt-1 text-xs text-stone-500 dark:text-stone-400">
+                    {selectedRole === "admin"
+                      ? "Demo password: admin123"
+                      : "Demo password: 123456"}
+                  </p>
                 </div>
 
                 <div className="flex justify-end">
                   <button
                     type="button"
-                    className="text-sm font-medium text-[#C1622B] hover:underline"
+                    className="text-sm font-semibold text-[#C1622B] dark:text-orange-400 hover:underline"
                   >
                     Forgot password?
                   </button>
                 </div>
 
                 {loginError && (
-                  <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
+                  <p className="rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/40 px-4 py-3 text-sm font-bold text-red-600 dark:text-red-400">
                     {loginError}
                   </p>
                 )}
 
                 <button
                   type="submit"
-                  className="w-full rounded-xl bg-[#C1622B] px-4 py-3 font-semibold text-white transition hover:bg-[#a94f22]"
+                  className="w-full rounded-xl bg-[#C1622B] hover:bg-[#a94f22] dark:bg-[#E07A3E] dark:hover:bg-[#c9662b] px-4 py-3 font-extrabold text-white shadow-md transition"
                 >
                   Login as {selectedRoleData.title}
                 </button>
               </form>
 
-              {/* Consumer and worker signup */}
               {selectedRole !== "admin" && (
-                <p className="mt-6 text-center text-sm text-gray-500">
+                <p className="mt-6 text-center text-sm text-stone-500 dark:text-stone-400">
                   Don’t have an account?{" "}
                   <button
                     type="button"
-                    className="font-semibold text-[#C1622B] hover:underline"
+                    className="font-bold text-[#C1622B] dark:text-orange-400 hover:underline"
                   >
                     Sign up
                   </button>
