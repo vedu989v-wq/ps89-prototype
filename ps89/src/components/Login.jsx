@@ -84,7 +84,7 @@ function Login() {
 
       localStorage.setItem("loggedInWorker", JSON.stringify(worker));
 
-      window.location.href = "/worker-dashboard";
+      navigate("/worker-dashboard");
     } else if (selectedRole === "consumer") {
       const consumer = consumers.find(
         (user) => user.email === email && user.password === password,
@@ -96,7 +96,7 @@ function Login() {
       }
       localStorage.setItem("loggedInConsumer", JSON.stringify(consumer));
 
-      window.location.href="/consumer-dashboard";
+      navigate("/worker-dashboard");
       return;
     }
 
