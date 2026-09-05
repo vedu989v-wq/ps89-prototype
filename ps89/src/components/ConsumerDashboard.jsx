@@ -266,10 +266,6 @@ function ConsumerDashboard() {
                   <p className="text-sm font-semibold text-gray-800">
                     {consumer.name}
                   </p>
-
-                  <p className="text-xs text-gray-500">
-                    {consumer.society}
-                  </p>
                 </div>
 
                 <img
