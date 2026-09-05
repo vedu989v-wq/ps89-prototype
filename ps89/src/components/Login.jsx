@@ -96,7 +96,7 @@ function Login() {
       }
       localStorage.setItem("loggedInConsumer", JSON.stringify(consumer));
 
-      navigate("/worker-dashboard");
+      navigate("/consumer-dashboard");
       return;
     }
 
