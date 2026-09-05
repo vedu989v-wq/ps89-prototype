@@ -1,0 +1,33 @@
+{
+  "worker": {
+    "welcome": "Welcome back",
+    "overview": "Worker Overview",
+    "home": "Home",
+    "requests": "Requests",
+    "profileSettings": "Profile Settings",
+    "logout": "Log Out",
+    "language": "Language",
+    "profile": "My Profile",
+    "skills": "Skills",
+    "experience": "Years of Experience",
+    "certificate": "Uploaded Certificate",
+    "cooperativeBadge": "Cooperative Member",
+    "earnings": "Earnings Analytics",
+    "lastSevenDays": "Last 7 Days",
+    "monthlyEarnings": "Monthly Earnings",
+    "currentMonth": "Current Month",
+    "jobsCompleted": "Jobs Completed",
+    "welfareStatus": "Welfare Fund Status",
+    "received": "Received",
+    "pending": "Pending",
+    "viewCertificate": "View Certificate",
+    "noRequests": "No pending requests",
+    "accept": "Accept Request",
+    "requestLocation": "Customer Location",
+    "requestSkill": "Required Skill",
+    "requestAmount": "Estimated Earnings",
+    "settingsDescription": "Manage your profile and account preferences",
+    "comingSoon": "This option will be available soon",
+    "confirmLogout": "Are you sure you want to log out?"
+  }
+}

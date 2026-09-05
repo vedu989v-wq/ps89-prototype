@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "fedAdCode": "FED-AD-001",
+    "password": "admin123",
+    "name": "Federation Administrator",
+    "role": "federation_admin"
+  },
+  {
+    "id": 2,
+    "fedAdCode": "FED-AD-002",
+    "password": "society123",
+    "name": "Society Administrator",
+    "role": "society_admin"
+  }
+]

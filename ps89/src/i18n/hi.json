@@ -1,0 +1,33 @@
+{
+  "worker": {
+    "welcome": "वापसी पर स्वागत है",
+    "overview": "कामगार अवलोकन",
+    "home": "होम",
+    "requests": "अनुरोध",
+    "profileSettings": "प्रोफ़ाइल सेटिंग्स",
+    "logout": "लॉग आउट",
+    "language": "भाषा",
+    "profile": "मेरी प्रोफ़ाइल",
+    "skills": "कौशल",
+    "experience": "अनुभव के वर्ष",
+    "certificate": "अपलोड किया गया प्रमाणपत्र",
+    "cooperativeBadge": "सहकारी सदस्य",
+    "earnings": "कमाई का विश्लेषण",
+    "lastSevenDays": "पिछले 7 दिन",
+    "monthlyEarnings": "मासिक कमाई",
+    "currentMonth": "वर्तमान महीना",
+    "jobsCompleted": "पूरे किए गए काम",
+    "welfareStatus": "कल्याण निधि की स्थिति",
+    "received": "प्राप्त",
+    "pending": "लंबित",
+    "viewCertificate": "प्रमाणपत्र देखें",
+    "noRequests": "कोई लंबित अनुरोध नहीं है",
+    "accept": "अनुरोध स्वीकार करें",
+    "requestLocation": "ग्राहक का स्थान",
+    "requestSkill": "आवश्यक कौशल",
+    "requestAmount": "अनुमानित कमाई",
+    "settingsDescription": "अपनी प्रोफ़ाइल और खाता प्राथमिकताएँ प्रबंधित करें",
+    "comingSoon": "यह विकल्प जल्द उपलब्ध होगा",
+    "confirmLogout": "क्या आप वाकई लॉग आउट करना चाहते हैं?"
+  }
+}
