@@ -1,1 +1,118 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --bg-primary: #FAF6F0;
+    --bg-surface: rgba(250, 246, 240, 0.95);
+    --bg-card: #FFFFFF;
+    --text-primary: #1C1917;
+    --text-secondary: #44403C;
+    --border-subtle: rgba(193, 98, 43, 0.18);
+    --accent-orange: #C1622B;
+    --accent-orange-hover: #DB703C;
+    --accent-green: #2D5A3D;
+    --accent-green-hover: #3E7B54;
+    --glow-orange: rgba(193, 98, 43, 0.1);
+    --glow-green: rgba(45, 90, 61, 0.1);
+  }
+
+  .dark {
+    --bg-primary: #111311;
+    --bg-surface: rgba(17, 19, 17, 0.95);
+    --bg-card: #181c19;
+    --text-primary: #F5F3EF;
+    --text-secondary: #D6D3D1;
+    --border-subtle: rgba(255, 255, 255, 0.12);
+    --accent-orange: #E07A3E;
+    --accent-orange-hover: #F38C4F;
+    --accent-green: #3E7B54;
+    --accent-green-hover: #529F6E;
+    --glow-orange: rgba(224, 122, 62, 0.18);
+    --glow-green: rgba(62, 123, 84, 0.18);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+}
+
+/* Custom Utilities for 8px Grid, Glassmorphism, and Premium SaaS Look */
+.glass-nav {
+  background-color: rgba(250, 246, 240, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.dark .glass-nav {
+  background-color: rgba(17, 19, 17, 0.92);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(214, 211, 209, 0.8);
+}
+
+.dark .glass-card {
+  background: rgba(24, 28, 25, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.hero-mesh-bg {
+  background-color: #FAF6F0;
+  background-image: 
+    radial-gradient(at 10% 10%, rgba(193, 98, 43, 0.06) 0px, transparent 50%),
+    radial-gradient(at 90% 20%, rgba(45, 90, 61, 0.07) 0px, transparent 50%),
+    radial-gradient(at 50% 80%, rgba(219, 112, 60, 0.05) 0px, transparent 50%);
+}
+
+.dark .hero-mesh-bg {
+  background-color: #111311;
+  background-image: 
+    radial-gradient(at 10% 10%, rgba(224, 122, 62, 0.12) 0px, transparent 50%),
+    radial-gradient(at 90% 20%, rgba(62, 123, 84, 0.15) 0px, transparent 50%),
+    radial-gradient(at 50% 80%, rgba(62, 123, 84, 0.08) 0px, transparent 50%);
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(1deg); }
+}
+
+.animate-float {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.04); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-subtle 4s ease-in-out infinite;
+}
+
+/* Infinite Train Marquee Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee:hover,
+.group:hover .animate-marquee {
+  animation-play-state: paused;
+}
