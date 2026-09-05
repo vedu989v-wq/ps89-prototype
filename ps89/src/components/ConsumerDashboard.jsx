@@ -184,7 +184,7 @@ function ConsumerDashboard() {
           {sidebarOpen ? (
             <div className="text-center">
               <h1 className="text-xl font-bold text-[#C1622B]">
-                Consumer Portal
+                HouseHold Services
               </h1>
 
               <p className="mt-1 text-xs text-gray-500">
@@ -254,10 +254,6 @@ function ConsumerDashboard() {
                 <p className="text-sm text-gray-500">
                   {consumer.location}
                 </p>
-
-                <h1 className="mt-2 text-3xl font-bold text-gray-800">
-                  Welcome back, {consumer.name.split(" ")[0]} 👋
-                </h1>
 
                 <p className="mt-2 text-gray-500">
                   What service do you need today?
