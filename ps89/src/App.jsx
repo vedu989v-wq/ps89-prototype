@@ -1,6 +1,6 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { LanguageProvider } from "./context/LanguageContext";
-
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import About from "./components/About";
@@ -28,10 +28,21 @@ function HomePage() {
   );
 }
 
-function App() {
+function RouteTransition() {
+  const location = useLocation();
+  const [isNavigating, setIsNavigating] = useState(false);
+
+  useEffect(() => {
+    setIsNavigating(true);
+    const timeoutId = window.setTimeout(() => setIsNavigating(false), 450);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [location.pathname]);
+
   return (
-    <LanguageProvider>
-      <BrowserRouter>
+    <>
+      {isNavigating && <div className="route-progress" aria-hidden="true" />}
+      <div key={location.pathname} className="route-view">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
@@ -39,6 +50,16 @@ function App() {
           <Route path="/worker-dashboard" element={<WorkerDashboard />} />
           <Route path="/consumer-dashboard" element={<ConsumerDashboard />} />
         </Routes>
+      </div>
+    </>
+  );
+}
+
+function App() {
+  return (
+<LanguageProvider>
+      <BrowserRouter>
+        <RouteTransition />
       </BrowserRouter>
     </LanguageProvider>
   );

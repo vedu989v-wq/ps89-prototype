@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 function Settings() {
+  const navigate = useNavigate();
   const settingsOptions = [
     {
       icon: "👤",
@@ -33,7 +36,7 @@ function Settings() {
     localStorage.removeItem("user");
 
     // Redirect to the login page
-    window.location.href = "/login";
+    navigate("/login");
   };
 
   return (

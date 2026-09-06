@@ -1,5 +1,19 @@
 # KaushalSetu 🛠️
 
+## Mobile App
+
+The Vite frontend is connected to Capacitor with an Android project in `ps89/android`.
+
+From the `ps89` directory:
+
+```bash
+npm install
+npm run cap:sync
+npm run cap:open
+```
+
+`cap:sync` rebuilds the web app and copies it into the native project. `cap:open` opens Android Studio, where the app can be run on an emulator or connected Android device. Android Studio and an Android SDK are required for native builds.
+
 **Digitizing India's Labour Cooperatives — Trust Inherited, Not Reinvented.**
 
 > SIH 2026 Submission
