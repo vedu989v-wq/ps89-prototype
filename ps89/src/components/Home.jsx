@@ -32,117 +32,17 @@ import {
   HeartHandshake,
   Check
 } from "lucide-react";
-
+import { useLanguage } from "../context/LanguageContext";
 import heroWorkers from "../assets/hero_workers.png";
 
-// Hero slides for cycling taglines
-const heroSlides = [
-  {
-    tagline: "Workers who own their platform, earn what they deserve.",
-    badge: "Cooperative Empowerment"
-  },
-  {
-    tagline: "Not owned by a company. Owned by the people who do the work.",
-    badge: "100% Worker Managed"
-  },
-  {
-    tagline: "Verified by your community, not by an algorithm.",
-    badge: "Neighborhood Vetted"
-  },
-  {
-    tagline: "Skilled labour, unlocked.",
-    badge: "Dignity & Fair Wages"
-  }
-];
-
-// About Section Stats
-const aboutStats = [
-  {
-    id: 1,
-    number: "90%",
-    label: "Worker Earnings",
-    subtext: "Direct transparent payments.",
-    accent: "text-[#C1622B] dark:text-[#E07A3E]",
-    borderHover: "hover:border-[#C1622B]/50 dark:hover:border-[#E07A3E]/50",
-    icon: TrendingUp
-  },
-  {
-    id: 2,
-    number: "10%",
-    label: "Welfare Fund",
-    subtext: "Reinvested into community health and safety.",
-    accent: "text-[#2D5A3D] dark:text-[#529F6E]",
-    borderHover: "hover:border-[#2D5A3D]/50 dark:hover:border-[#529F6E]/50",
-    icon: HeartHandshake
-  },
-  {
-    id: 3,
-    number: "44,000+",
-    label: "Labour Cooperatives",
-    subtext: "Verified registered societies across the nation.",
-    accent: "text-[#C1622B] dark:text-[#E07A3E]",
-    borderHover: "hover:border-[#C1622B]/50 dark:hover:border-[#E07A3E]/50",
-    icon: ShieldCheck
-  }
-];
-
-// Services for the Infinite Train / Marquee Roller
-const serviceTrain = [
-  { id: "s1", name: "Electrician & Power", icon: Zap, color: "text-amber-500 bg-amber-500/10 dark:bg-amber-500/20" },
-  { id: "s2", name: "Plumbing & Sanitation", icon: Wrench, color: "text-blue-500 bg-blue-500/10 dark:bg-blue-500/20" },
-  { id: "s3", name: "Master Carpentry", icon: Hammer, color: "text-orange-600 bg-orange-600/10 dark:bg-orange-600/20" },
-  { id: "s4", name: "Painting & Waterproofing", icon: Paintbrush, color: "text-purple-500 bg-purple-500/10 dark:bg-purple-500/20" },
-  { id: "s5", name: "Deep Cleaning & Hygiene", icon: Sparkle, color: "text-teal-500 bg-teal-500/10 dark:bg-teal-500/20" },
-  { id: "s6", name: "Gardening & Landscaping", icon: TreePine, color: "text-emerald-500 bg-emerald-500/10 dark:bg-emerald-500/20" },
-  { id: "s7", name: "Masonry & Tile Work", icon: Layers, color: "text-amber-700 bg-amber-700/10 dark:bg-amber-700/20" },
-  { id: "s8", name: "Caregiving & Assistance", icon: Heart, color: "text-rose-500 bg-rose-500/10 dark:bg-rose-500/20" }
-];
-
-// Initial Testimonial Data
-const initialTestimonials = [
-  {
-    id: 1,
-    theme: "rose",
-    bgClass: "bg-rose-50/80 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/40",
-    badgeBg: "bg-rose-600 text-white",
-    rating: "5.0",
-    title: "Very time convenient!",
-    quote: "Very happy with the electrical service. The technician came with proper safety gear and completed the work with zero hassle. Direct payment to worker felt so honest.",
-    user: "Priyanka S., Indore",
-    service: "Electrician & Power"
-  },
-  {
-    id: 2,
-    theme: "indigo",
-    bgClass: "bg-indigo-50/80 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-900/40",
-    badgeBg: "bg-indigo-600 text-white",
-    rating: "5.0",
-    title: "Spotless. Advance tools",
-    quote: "Booked a cooperative sanitation team for pre-monsoon gutter and drain cleaning. Professional equipment, verified OTP on arrival, and no hidden surge charges.",
-    user: "Atharva Singh, Bhopal",
-    service: "Plumbing & Sanitation"
-  },
-  {
-    id: 3,
-    theme: "teal",
-    bgClass: "bg-teal-50/80 dark:bg-teal-950/20 border border-teal-200 dark:border-teal-900/40",
-    badgeBg: "bg-teal-600 text-white",
-    rating: "4.8",
-    title: "Expert Professional",
-    quote: "Carpenter arrived within 40 minutes. He had all the necessary spare hinges and timber tools with him. Transparent ledger receipt sent directly on WhatsApp.",
-    user: "Aman Verma, Dewas",
-    service: "Master Carpentry"
-  }
-];
-
 function Home() {
+  const { language, t } = useLanguage();
   const [activeSlide, setActiveSlide] = useState(0);
 
   // Dynamic Fair Earnings Amount State
   const [payAmount, setPayAmount] = useState(500);
 
   // Community Feedback State
-  const [testimonials, setTestimonials] = useState(initialTestimonials);
   const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -156,6 +56,37 @@ function Home() {
   const [formQuote, setFormQuote] = useState("");
   const [isSubmittedNotice, setIsSubmittedNotice] = useState(false);
 
+  // Custom User Submitted Reviews state
+  const [customReviews, setCustomReviews] = useState([]);
+
+  // Hero slides data keys
+  const heroSlides = [
+    {
+      taglineKey: "hero.tagline1",
+      defaultTagline: "Workers who own their platform, earn what they deserve.",
+      badgeKey: "hero.badge1",
+      defaultBadge: "Cooperative Empowerment"
+    },
+    {
+      taglineKey: "hero.tagline2",
+      defaultTagline: "Not owned by a company. Owned by the people who do the work.",
+      badgeKey: "hero.badge2",
+      defaultBadge: "100% Worker Managed"
+    },
+    {
+      taglineKey: "hero.tagline3",
+      defaultTagline: "Verified by your community, not by an algorithm.",
+      badgeKey: "hero.badge3",
+      defaultBadge: "Neighborhood Vetted"
+    },
+    {
+      taglineKey: "hero.tagline4",
+      defaultTagline: "Skilled labour, unlocked.",
+      badgeKey: "hero.badge4",
+      defaultBadge: "Dignity & Fair Wages"
+    }
+  ];
+
   // Automatic tagline text cycling every 5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
@@ -167,13 +98,113 @@ function Home() {
 
   const slide = heroSlides[activeSlide];
 
+  // About Section Stats
+  const aboutStats = [
+    {
+      id: 1,
+      number: "90%",
+      labelKey: "about.stat1Label",
+      defaultLabel: "Worker Earnings",
+      subtextKey: "about.stat1Subtext",
+      defaultSubtext: "Direct transparent payments.",
+      accent: "text-[#C1622B] dark:text-[#E07A3E]",
+      borderHover: "hover:border-[#C1622B]/50 dark:hover:border-[#E07A3E]/50",
+      icon: TrendingUp
+    },
+    {
+      id: 2,
+      number: "10%",
+      labelKey: "about.stat2Label",
+      defaultLabel: "Welfare Fund",
+      subtextKey: "about.stat2Subtext",
+      defaultSubtext: "Reinvested into community health and safety.",
+      accent: "text-[#2D5A3D] dark:text-[#529F6E]",
+      borderHover: "hover:border-[#2D5A3D]/50 dark:hover:border-[#529F6E]/50",
+      icon: HeartHandshake
+    },
+    {
+      id: 3,
+      number: "44,000+",
+      labelKey: "about.stat3Label",
+      defaultLabel: "Labour Cooperatives",
+      subtextKey: "about.stat3Subtext",
+      defaultSubtext: "Verified registered societies across the nation.",
+      accent: "text-[#C1622B] dark:text-[#E07A3E]",
+      borderHover: "hover:border-[#C1622B]/50 dark:hover:border-[#E07A3E]/50",
+      icon: ShieldCheck
+    }
+  ];
+
+  // Services for the Infinite Train / Marquee Roller
+  const serviceTrain = [
+    { id: "s1", nameKey: "services.electrician", defaultName: "Electrician & Power", icon: Zap, color: "text-amber-500 bg-amber-500/10 dark:bg-amber-500/20" },
+    { id: "s2", nameKey: "services.plumbing", defaultName: "Plumbing & Sanitation", icon: Wrench, color: "text-blue-500 bg-blue-500/10 dark:bg-blue-500/20" },
+    { id: "s3", nameKey: "services.carpentry", defaultName: "Master Carpentry", icon: Hammer, color: "text-orange-600 bg-orange-600/10 dark:bg-orange-600/20" },
+    { id: "s4", nameKey: "services.painting", defaultName: "Painting & Waterproofing", icon: Paintbrush, color: "text-purple-500 bg-purple-500/10 dark:bg-purple-500/20" },
+    { id: "s5", nameKey: "services.cleaning", defaultName: "Deep Cleaning & Hygiene", icon: Sparkle, color: "text-teal-500 bg-teal-500/10 dark:bg-teal-500/20" },
+    { id: "s6", nameKey: "services.gardening", defaultName: "Gardening & Landscaping", icon: TreePine, color: "text-emerald-500 bg-emerald-500/10 dark:bg-emerald-500/20" },
+    { id: "s7", nameKey: "services.masonry", defaultName: "Masonry & Tile Work", icon: Layers, color: "text-amber-700 bg-amber-700/10 dark:bg-amber-700/20" },
+    { id: "s8", nameKey: "services.caregiving", defaultName: "Caregiving & Assistance", icon: Heart, color: "text-rose-500 bg-rose-500/10 dark:bg-rose-500/20" }
+  ];
+
+  // Default Testimonials
+  const initialTestimonials = [
+    {
+      id: 1,
+      theme: "rose",
+      bgClass: "bg-rose-50/80 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/40",
+      badgeBg: "bg-rose-600 text-white",
+      rating: "5.0",
+      titleKey: "reviews.review1Title",
+      defaultTitle: "Very time convenient!",
+      quoteKey: "reviews.review1Quote",
+      defaultQuote: "Very happy with the electrical service. The technician came with proper safety gear and completed the work with zero hassle. Direct payment to worker felt so honest.",
+      userKey: "reviews.review1User",
+      defaultUser: "Priyanka S., Indore",
+      serviceKey: "reviews.review1Service",
+      defaultService: "Electrician & Power"
+    },
+    {
+      id: 2,
+      theme: "indigo",
+      bgClass: "bg-indigo-50/80 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-900/40",
+      badgeBg: "bg-indigo-600 text-white",
+      rating: "5.0",
+      titleKey: "reviews.review2Title",
+      defaultTitle: "Spotless. Advance tools",
+      quoteKey: "reviews.review2Quote",
+      defaultQuote: "Booked a cooperative sanitation team for pre-monsoon gutter and drain cleaning. Professional equipment, verified OTP on arrival, and no hidden surge charges.",
+      userKey: "reviews.review2User",
+      defaultUser: "Atharva Singh, Bhopal",
+      serviceKey: "reviews.review2Service",
+      defaultService: "Plumbing & Sanitation"
+    },
+    {
+      id: 3,
+      theme: "teal",
+      bgClass: "bg-teal-50/80 dark:bg-teal-950/20 border border-teal-200 dark:border-teal-900/40",
+      badgeBg: "bg-teal-600 text-white",
+      rating: "4.8",
+      titleKey: "reviews.review3Title",
+      defaultTitle: "Expert Professional",
+      quoteKey: "reviews.review3Quote",
+      defaultQuote: "Carpenter arrived within 40 minutes. He had all the necessary spare hinges and timber tools with him. Transparent ledger receipt sent directly on WhatsApp.",
+      userKey: "reviews.review3User",
+      defaultUser: "Aman Verma, Dewas",
+      serviceKey: "reviews.review3Service",
+      defaultService: "Master Carpentry"
+    }
+  ];
+
+  const allTestimonials = [...customReviews, ...initialTestimonials];
+
   // Carousel controls for reviews
   const nextTestimonial = () => {
-    setCurrentTestimonialIndex((prev) => (prev + 1) % testimonials.length);
+    setCurrentTestimonialIndex((prev) => (prev + 1) % allTestimonials.length);
   };
 
   const prevTestimonial = () => {
-    setCurrentTestimonialIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    setCurrentTestimonialIndex((prev) => (prev - 1 + allTestimonials.length) % allTestimonials.length);
   };
 
   // Submit review form handler
@@ -199,7 +230,7 @@ function Home() {
       }
     ];
 
-    const selectedTheme = themes[testimonials.length % themes.length];
+    const selectedTheme = themes[allTestimonials.length % themes.length];
 
     const newReview = {
       id: Date.now(),
@@ -208,10 +239,11 @@ function Home() {
       title: formTitle,
       quote: formQuote,
       user: `${formName}, ${formLocation || "MP District"}`,
-      service: formService
+      service: formService,
+      isCustom: true
     };
 
-    setTestimonials([newReview, ...testimonials]);
+    setCustomReviews([newReview, ...customReviews]);
     setIsSubmittedNotice(true);
 
     setTimeout(() => {
@@ -238,10 +270,10 @@ function Home() {
           ========================================= */}
       <section id="home" className="relative overflow-hidden mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-8 pb-16 lg:pt-14 lg:pb-24">
         
-        {/* Top-Left Orange Blur (Both Themes) */}
+        {/* Top-Left Orange Blur */}
         <div className="absolute -top-20 -left-20 h-96 w-96 rounded-full bg-[#C1622B] blur-[120px] opacity-20 pointer-events-none" />
 
-        {/* Bottom-Right Green Blur (Dark Theme ONLY) */}
+        {/* Bottom-Right Green Blur */}
         <div className="absolute -bottom-20 -right-20 h-96 w-96 rounded-full bg-[#2d5a3d] blur-[120px] opacity-30 hidden dark:block pointer-events-none" />
 
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8 min-h-[540px] relative z-10">
@@ -257,31 +289,23 @@ function Home() {
               className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#C1622B]/30 bg-[#C1622B]/10 dark:border-[#E07A3E]/30 dark:bg-[#E07A3E]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#C1622B] dark:text-[#E07A3E] w-fit shadow-xs"
             >
               <Sparkles className="h-3.5 w-3.5" />
-              <span>Direct Labour Collective</span>
+              <span>{t("globals.directLabourCollective", "Direct Labour Collective")}</span>
             </motion.div>
 
             {/* Dynamic Tagline Heading */}
-            <div className="relative min-h-[140px] sm:min-h-[160px] md:min-h-[180px]">
+            <div className="relative min-h-[140px] sm:min-h-[160px] md:min-h-[180px] flex items-center">
               <AnimatePresence mode="wait">
                 <motion.h1
-                  key={activeSlide}
+                  key={activeSlide + language}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.5, ease: "easeOut" }}
-                  className="text-3xl font-extrabold tracking-tight text-stone-900 dark:text-white sm:text-5xl lg:text-5xl xl:text-6xl leading-[1.15]"
+                  className="text-2xl font-extrabold tracking-tight text-stone-900 dark:text-white sm:text-4xl lg:text-5xl xl:text-5xl leading-[1.2]"
                 >
-                  {slide.tagline.split(",").map((part, i) => (
-                    <span key={i} className="block text-stone-900 dark:text-white">
-                      {i === 1 ? (
-                        <span className="bg-gradient-to-r from-[#C1622B] via-[#DB703C] to-[#2D5A3D] dark:from-[#E07A3E] dark:to-[#529F6E] bg-clip-text text-transparent">
-                          {part}
-                        </span>
-                      ) : (
-                        part
-                      )}
-                    </span>
-                  ))}
+                  <span className="bg-gradient-to-r from-[#C1622B] via-[#DB703C] to-[#2D5A3D] dark:from-[#E07A3E] dark:to-[#529F6E] bg-clip-text text-transparent">
+                    {t(slide.taglineKey, slide.defaultTagline)}
+                  </span>
                 </motion.h1>
               </AnimatePresence>
             </div>
@@ -293,7 +317,10 @@ function Home() {
               transition={{ duration: 0.5, delay: 0.15 }}
               className="mt-6 text-base sm:text-lg leading-relaxed text-stone-700 dark:text-stone-300 max-w-2xl font-medium"
             >
-              We're the bridge between verified cooperative workers and the people who need them. Direct connections, transparent payments, and a community-driven welfare fund ensuring every worker earns what they truly deserve.
+              {t(
+                "hero.mission",
+                "We're the bridge between verified cooperative workers and the people who need them. Direct connections, transparent payments, and a community-driven welfare fund ensuring every worker earns what they truly deserve."
+              )}
             </motion.p>
 
             {/* Pagination Controls & Indicator Dots */}
@@ -303,7 +330,7 @@ function Home() {
                   <button
                     key={idx}
                     onClick={() => setActiveSlide(idx)}
-                    className={`h-2.5 rounded-full transition-all duration-300 focus-visible:outline-none ${
+                    className={`h-2.5 rounded-full transition-all duration-300 focus-visible:outline-none cursor-pointer ${
                       activeSlide === idx
                         ? "w-8 bg-[#C1622B] dark:bg-[#E07A3E]"
                         : "w-2.5 bg-stone-300 dark:bg-stone-700 hover:bg-stone-400"
@@ -379,7 +406,7 @@ function Home() {
               className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#C1622B]/30 bg-[#C1622B]/10 dark:border-[#E07A3E]/30 dark:bg-[#E07A3E]/10 px-3.5 py-1 text-xs font-extrabold uppercase tracking-[0.25em] text-[#C1622B] dark:text-[#E07A3E]"
             >
               <Sparkles className="h-3.5 w-3.5" />
-              <span>ABOUT KAUSHALSETU</span>
+              <span>{t("about.eyebrow", "ABOUT KAUSHALSETU")}</span>
             </motion.div>
 
             <motion.h2
@@ -389,7 +416,7 @@ function Home() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-3xl font-extrabold tracking-tight text-stone-900 dark:text-white sm:text-4xl lg:text-5xl leading-[1.18]"
             >
-              Not another app. A platform that belongs to its workers.
+              {t("about.title", "Not another app. A platform that belongs to its workers.")}
             </motion.h2>
 
             <motion.p
@@ -399,7 +426,10 @@ function Home() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="mt-6 text-base sm:text-lg leading-relaxed text-stone-700 dark:text-stone-300 font-medium"
             >
-              KaushalSetu connects households with plumbers, electricians, caregivers, and cleaners — all verified members of India's real Labour Cooperative Societies. No open sign-up, no anonymous freelancers. Just cooperative-verified workers, booked in minutes, keeping ~90% of what they earn.
+              {t(
+                "about.description",
+                "KaushalSetu connects households with plumbers, electricians, caregivers, and cleaners — all verified members of India's real Labour Cooperative Societies. No open sign-up, no anonymous freelancers. Just cooperative-verified workers, booked in minutes, keeping ~90% of what they earn."
+              )}
             </motion.p>
 
             <motion.div
@@ -410,7 +440,7 @@ function Home() {
               className="mt-8 relative overflow-hidden rounded-2xl border-l-4 border-[#C1622B] dark:border-[#E07A3E] bg-stone-50 dark:bg-stone-800/80 p-6 sm:p-7 shadow-md border-y border-r border-stone-200 dark:border-stone-700"
             >
               <p className="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100 italic leading-relaxed">
-                "Kaushal (skill) + Setu (bridge) — a bridge between verified skill and the people who need it."
+                "{t("about.callout", "Kaushal (skill) + Setu (bridge) — a bridge between verified skill and the people who need it.")}"
               </p>
             </motion.div>
           </div>
@@ -445,11 +475,11 @@ function Home() {
                   </div>
 
                   <h3 className="mt-4 text-lg font-bold text-stone-900 dark:text-stone-100">
-                    {stat.label}
+                    {t(stat.labelKey, stat.defaultLabel)}
                   </h3>
 
                   <p className="mt-1.5 text-sm font-medium leading-relaxed text-stone-600 dark:text-stone-400">
-                    {stat.subtext}
+                    {t(stat.subtextKey, stat.defaultSubtext)}
                   </p>
                 </motion.div>
               );
@@ -467,10 +497,10 @@ function Home() {
           
           <div className="text-center max-w-2xl mx-auto mb-8">
             <span className="text-sm font-semibold tracking-wider uppercase text-[#C1622B] dark:text-orange-400 block mb-1">
-              Home services at your doorstep
+              {t("services.eyebrow", "HOME SERVICES AT YOUR DOORSTEP")}
             </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-stone-900 dark:text-stone-100">
-              Verified Cooperative Services On Demand
+              {t("services.title", "Verified Cooperative Services On Demand")}
             </h2>
           </div>
 
@@ -484,17 +514,17 @@ function Home() {
                 return (
                   <div
                     key={`${item.id}-${idx}`}
-                    className="rounded-2xl p-4 min-w-[220px] sm:min-w-[240px] flex items-center gap-3 bg-white border border-stone-200 shadow-sm text-stone-800 dark:bg-stone-900/90 dark:border-stone-800 dark:text-stone-100 hover:-translate-y-1 hover:border-[#C1622B] dark:hover:border-[#E07A3E] transition-all duration-300 cursor-pointer select-none group/card"
+                    className="rounded-2xl p-4 min-w-[220px] sm:min-w-[260px] flex items-center gap-3 bg-white border border-stone-200 shadow-sm text-stone-800 dark:bg-stone-900/90 dark:border-stone-800 dark:text-stone-100 hover:-translate-y-1 hover:border-[#C1622B] dark:hover:border-[#E07A3E] transition-all duration-300 cursor-pointer select-none group/card"
                   >
                     <div className={`flex h-11 w-11 items-center justify-center rounded-xl shrink-0 ${item.color}`}>
                       <IconComponent className="h-5 w-5" />
                     </div>
                     <div className="flex flex-col">
                       <span className="text-sm font-bold text-stone-900 dark:text-stone-100 group-hover/card:text-[#C1622B] dark:group-hover/card:text-orange-400 transition-colors">
-                        {item.name}
+                        {t(item.nameKey, item.defaultName)}
                       </span>
                       <span className="text-[11px] font-medium text-stone-500 dark:text-stone-400">
-                        Cooperative Vetted
+                        {t("services.cooperativeVetted", "Cooperative Vetted")}
                       </span>
                     </div>
                   </div>
@@ -507,20 +537,20 @@ function Home() {
       </section>
 
       {/* =========================================
-          4. THE TRUST CHAIN (SIMPLIFIED LANGUAGE)
+          4. THE TRUST CHAIN
           ========================================= */}
       <section id="trust-chain" className="py-20 bg-stone-100/60 dark:bg-stone-950/40 border-t border-stone-300/60 dark:border-stone-800/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#C1622B] dark:text-[#E07A3E]">
-              COOPERATIVE VERIFICATION FLOW
+              {t("trustChain.eyebrow", "COOPERATIVE VERIFICATION FLOW")}
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-stone-900 dark:text-white mt-2">
-              The Trust Chain
+              {t("trustChain.title", "The Trust Chain")}
             </h2>
             <p className="mt-3 text-lg font-semibold text-[#2D5A3D] dark:text-[#529F6E]">
-              Verified by the community, inherited by the platform.
+              {t("trustChain.sub", "Verified by the community, inherited by the platform.")}
             </p>
           </div>
 
@@ -543,15 +573,15 @@ function Home() {
                   <UserCheck className="h-7 w-7 text-stone-400" />
                 </div>
                 <h3 className="text-xl font-extrabold text-stone-900 dark:text-white mb-2">
-                  1. The Worker
+                  {t("trustChain.step1Title", "1. The Worker")}
                 </h3>
                 <p className="text-sm font-medium leading-relaxed text-stone-600 dark:text-stone-300">
-                  Plumbers, electricians, and cleaners from your own city.
+                  {t("trustChain.step1Sub", "Plumbers, electricians, and cleaners from your own city.")}
                 </p>
               </div>
               <div className="mt-8 pt-4 border-t border-stone-100 dark:border-stone-800 flex items-center gap-2 text-xs font-bold text-emerald-600 dark:text-emerald-400">
                 <CheckCircle2 className="h-4.5 w-4.5 text-emerald-500 shrink-0" />
-                <span>Verified City Resident</span>
+                <span>{t("trustChain.step1Badge", "Verified City Resident")}</span>
               </div>
             </motion.div>
 
@@ -571,15 +601,15 @@ function Home() {
                   <Building2 className="h-7 w-7 text-stone-400" />
                 </div>
                 <h3 className="text-xl font-extrabold text-stone-900 dark:text-white mb-2">
-                  2. Local Cooperative
+                  {t("trustChain.step2Title", "2. Local Cooperative")}
                 </h3>
                 <p className="text-sm font-medium leading-relaxed text-stone-600 dark:text-stone-300">
-                  A local trusted group physically checks the worker's ID and skills.
+                  {t("trustChain.step2Sub", "A local trusted group physically checks the worker's ID and skills.")}
                 </p>
               </div>
               <div className="mt-8 pt-4 border-t border-stone-100 dark:border-stone-800 flex items-center gap-2 text-xs font-bold text-emerald-600 dark:text-emerald-400">
                 <CheckCircle2 className="h-4.5 w-4.5 text-emerald-500 shrink-0" />
-                <span>Physical Background Check</span>
+                <span>{t("trustChain.step2Badge", "Physical Background Check")}</span>
               </div>
             </motion.div>
 
@@ -599,15 +629,15 @@ function Home() {
                   <CheckCircle2 className="h-7 w-7 text-[#C1622B] dark:text-[#E07A3E]" />
                 </div>
                 <h3 className="text-xl font-extrabold text-stone-900 dark:text-white mb-2">
-                  3. KaushalSetu App
+                  {t("trustChain.step3Title", "3. KaushalSetu App")}
                 </h3>
                 <p className="text-sm font-medium leading-relaxed text-stone-600 dark:text-stone-300">
-                  We only show you workers who have passed these real-world checks.
+                  {t("trustChain.step3Sub", "We only show you workers who have passed these real-world checks.")}
                 </p>
               </div>
               <div className="mt-8 pt-4 border-t border-stone-100 dark:border-stone-800 flex items-center gap-2 text-xs font-bold text-emerald-600 dark:text-emerald-400">
                 <CheckCircle2 className="h-4.5 w-4.5 text-emerald-500 shrink-0" />
-                <span>Ready for Doorstep Booking</span>
+                <span>{t("trustChain.step3Badge", "Ready for Doorstep Booking")}</span>
               </div>
             </motion.div>
 
@@ -622,16 +652,16 @@ function Home() {
         
         <div className="text-center max-w-3xl mx-auto mb-14">
           <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#2D5A3D] dark:text-[#529F6E]">
-            TRANSPARENT PAYOUT MODEL
+            {t("fairEarnings.eyebrow", "TRANSPARENT PAYOUT MODEL")}
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-stone-900 dark:text-white mt-2">
-            Fair Earnings Ledger
+            {t("fairEarnings.title", "Fair Earnings Ledger")}
           </h2>
           <p className="mt-2 text-xl font-extrabold text-[#C1622B] dark:text-[#E07A3E]">
-            Where does your money actually go?
+            {t("fairEarnings.subtitle", "Where does your money actually go?")}
           </p>
           <p className="mt-1 text-xs text-stone-500 dark:text-stone-400 font-medium">
-            Test the calculator below by changing your booking amount.
+            {t("fairEarnings.instructions", "Test the calculator below by changing your booking amount.")}
           </p>
         </div>
 
@@ -646,14 +676,14 @@ function Home() {
           {/* Quick Amount Presets */}
           <div className="flex items-center justify-center gap-2 mb-8 flex-wrap">
             <span className="text-xs font-bold text-stone-600 dark:text-stone-400 mr-2">
-              Quick Test:
+              {t("fairEarnings.quickTest", "Quick Test:")}
             </span>
             {[300, 500, 1000, 2500, 5000].map((preset) => (
               <button
                 key={preset}
                 type="button"
                 onClick={() => setPayAmount(preset)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
                   payAmount === preset
                     ? "bg-[#2D5A3D] text-white shadow-sm scale-105"
                     : "bg-white dark:bg-stone-800 border border-stone-300 dark:border-stone-700 text-stone-800 dark:text-stone-200 hover:border-[#2D5A3D]"
@@ -669,7 +699,7 @@ function Home() {
             {/* Card 1: Interactive "You Pay" Input */}
             <div className="w-full lg:flex-1 rounded-2xl bg-[#2D5A3D] text-white p-6 shadow-lg flex flex-col justify-between min-h-[180px]">
               <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-200">
-                You Pay
+                {t("fairEarnings.youPayLabel", "You Pay")}
               </span>
               <div className="mt-2">
                 <div className="flex items-center gap-1">
@@ -692,7 +722,9 @@ function Home() {
                   onChange={(e) => setPayAmount(Number(e.target.value))}
                   className="w-full mt-3 accent-emerald-400 cursor-pointer"
                 />
-                <p className="text-xs text-emerald-100 font-medium mt-1">Total Service Booking Fee</p>
+                <p className="text-xs text-emerald-100 font-medium mt-1">
+                  {t("fairEarnings.youPaySubtext", "Total Service Booking Fee")}
+                </p>
               </div>
             </div>
 
@@ -704,11 +736,13 @@ function Home() {
             {/* Card 2: Dynamic "To Worker (90%)" */}
             <div className="w-full lg:flex-1 rounded-2xl bg-[#C1622B] text-white p-6 shadow-lg flex flex-col justify-between min-h-[180px]">
               <span className="text-xs font-extrabold uppercase tracking-wider text-orange-200">
-                To Worker (90%)
+                {t("fairEarnings.toWorkerLabel", "To Worker (90%)")}
               </span>
               <div className="mt-2">
                 <span className="text-4xl sm:text-5xl font-black tracking-tight">₹{workerEarning}</span>
-                <p className="text-xs text-orange-100 font-medium mt-2">Direct Bank / UPI Transfer</p>
+                <p className="text-xs text-orange-100 font-medium mt-2">
+                  {t("fairEarnings.toWorkerSubtext", "Direct Bank / UPI Transfer")}
+                </p>
               </div>
             </div>
 
@@ -720,19 +754,24 @@ function Home() {
             {/* Card 3: Dynamic "Welfare Fund (10%)" */}
             <div className="w-full lg:flex-1 rounded-2xl bg-amber-600 dark:bg-amber-700 text-white p-6 shadow-lg flex flex-col justify-between min-h-[180px]">
               <span className="text-xs font-extrabold uppercase tracking-wider text-amber-200">
-                Welfare Fund (10%)
+                {t("fairEarnings.welfareFundLabel", "Welfare Fund (10%)")}
               </span>
               <div className="mt-2">
                 <span className="text-4xl sm:text-5xl font-black tracking-tight">₹{welfareFund}</span>
-                <p className="text-xs text-amber-100 font-bold mt-2">Health, Skill & Social Security</p>
+                <p className="text-xs text-amber-100 font-bold mt-2">
+                  {t("fairEarnings.welfareFundSubtext", "Health, Skill & Social Security")}
+                </p>
               </div>
             </div>
 
           </div>
 
           <div className="mt-8 pt-6 border-t border-stone-300/60 dark:border-stone-800/80 text-center">
-            <p className="text-sm font-medium text-stone-600 dark:text-stone-400">
-              Unlike gig platforms charging 30-40% commission with dynamic surge markups, KaushalSetu guarantees immutable 90% direct payout.
+            <p className="text-sm font-medium text-stone-600 dark:text-stone-400 leading-relaxed">
+              {t(
+                "fairEarnings.comparison",
+                "Unlike gig platforms charging 30-40% commission with dynamic surge markups, KaushalSetu guarantees immutable 90% direct payout."
+              )}
             </p>
           </div>
         </motion.div>
@@ -740,7 +779,7 @@ function Home() {
       </section>
 
       {/* =========================================
-          6. INSTITUTIONAL BOOKINGS (SIMPLIFIED LANGUAGE)
+          6. INSTITUTIONAL BOOKINGS
           ========================================= */}
       <section id="institutions" className="py-20 bg-stone-100/60 dark:bg-stone-950/40 border-t border-stone-300/60 dark:border-stone-800/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -759,29 +798,32 @@ function Home() {
               <div className="lg:col-span-8">
                 <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-emerald-400 mb-4">
                   <Building className="h-3.5 w-3.5" />
-                  <span>B2B & RWA CONTRACTS</span>
+                  <span>{t("institutions.eyebrow", "B2B & RWA CONTRACTS")}</span>
                 </span>
 
                 <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-4">
-                  For Big Buildings and Offices
+                  {t("institutions.title", "For Big Buildings and Offices")}
                 </h2>
 
                 <p className="text-base sm:text-lg text-stone-300 leading-relaxed font-medium max-w-3xl mb-6">
-                  Schools, hospitals, and apartment buildings can hire our trusted workers for daily cleaning and year-round maintenance.
+                  {t(
+                    "institutions.description",
+                    "Schools, hospitals, and apartment buildings can hire our trusted workers for daily cleaning and year-round maintenance."
+                  )}
                 </p>
 
                 <div className="flex flex-wrap gap-4 text-xs font-bold text-stone-300">
                   <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/10">
                     <GraduationCap className="h-4 w-4 text-amber-400" />
-                    <span>Schools & Colleges</span>
+                    <span>{t("institutions.tagSchools", "Schools & Colleges")}</span>
                   </span>
                   <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/10">
                     <Building2 className="h-4 w-4 text-emerald-400" />
-                    <span>Hospitals & Offices</span>
+                    <span>{t("institutions.tagHospitals", "Hospitals & Offices")}</span>
                   </span>
                   <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/10">
                     <Users className="h-4 w-4 text-orange-400" />
-                    <span>Apartment Buildings (RWAs)</span>
+                    <span>{t("institutions.tagApartments", "Apartment Buildings (RWAs)")}</span>
                   </span>
                 </div>
               </div>
@@ -791,11 +833,11 @@ function Home() {
                   href="tel:1800-555-KAUSHAL"
                   className="inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#C1622B] to-[#DB703C] hover:from-[#B0541E] hover:to-[#C1622B] text-white px-7 py-4 text-base font-extrabold shadow-xl transition-all duration-300 hover:scale-105"
                 >
-                  <span>Hire a Team</span>
+                  <span>{t("institutions.cta", "Hire a Team")}</span>
                   <ArrowRight className="h-5 w-5" />
                 </a>
                 <span className="text-xs text-stone-400 mt-3 font-medium">
-                  Direct GST Invoice & Welfare Compliant
+                  {t("institutions.tagCompliance", "Direct GST Invoice & Welfare Compliant")}
                 </span>
               </div>
 
@@ -813,13 +855,13 @@ function Home() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#C1622B] dark:text-[#E07A3E] block mb-1">
-              CUSTOMER EXPERIENCES & REVIEWS
+              {t("reviews.eyebrow", "CUSTOMER EXPERIENCES & REVIEWS")}
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-stone-900 dark:text-white">
-              Trusted by Neighborhoods, Verified by Results
+              {t("reviews.title", "Trusted by Neighborhoods, Verified by Results")}
             </h2>
             <p className="mt-2 text-stone-600 dark:text-stone-300 font-medium text-base max-w-xl">
-              Real feedback from residents booking through local labour cooperatives.
+              {t("reviews.subtitle", "Real feedback from residents booking through local labour cooperatives.")}
             </p>
           </div>
 
@@ -827,23 +869,23 @@ function Home() {
             <button
               onClick={() => setIsModalOpen(true)}
               type="button"
-              className="inline-flex items-center gap-2 rounded-full bg-[#C1622B] hover:bg-[#A85120] dark:bg-[#E07A3E] dark:hover:bg-[#C9662B] text-white px-5 py-2.5 text-sm font-bold shadow-md transition-all duration-200 hover:scale-105 focus-visible:outline-none"
+              className="inline-flex items-center gap-2 rounded-full bg-[#C1622B] hover:bg-[#A85120] dark:bg-[#E07A3E] dark:hover:bg-[#C9662B] text-white px-5 py-2.5 text-sm font-bold shadow-md transition-all duration-200 hover:scale-105 focus-visible:outline-none cursor-pointer"
             >
               <PlusCircle className="h-4 w-4" />
-              <span>Share Your Feedback</span>
+              <span>{t("reviews.shareButton", "Share Your Feedback")}</span>
             </button>
 
             <div className="flex items-center gap-2">
               <button
                 onClick={prevTestimonial}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-800 dark:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-700 transition-colors"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-800 dark:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-700 transition-colors cursor-pointer"
                 aria-label="Previous testimonial"
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
               <button
                 onClick={nextTestimonial}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-800 dark:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-700 transition-colors"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-800 dark:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-700 transition-colors cursor-pointer"
                 aria-label="Next testimonial"
               >
                 <ChevronRight className="h-5 w-5" />
@@ -854,7 +896,7 @@ function Home() {
 
         {/* Testimonial Cards Layout */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {testimonials.map((item, idx) => (
+          {allTestimonials.map((item, idx) => (
             <motion.div
               key={item.id}
               initial={{ opacity: 0, y: 20 }}
@@ -873,20 +915,20 @@ function Home() {
                 </div>
 
                 <h3 className="text-xl font-bold text-stone-900 dark:text-stone-100 mb-2">
-                  {item.title}
+                  {item.titleKey ? t(item.titleKey, item.defaultTitle) : item.title}
                 </h3>
 
                 <p className="text-sm leading-relaxed text-stone-700 dark:text-stone-300 font-medium italic mb-6">
-                  “{item.quote}”
+                  “{item.quoteKey ? t(item.quoteKey, item.defaultQuote) : item.quote}”
                 </p>
               </div>
 
               <div className="pt-4 border-t border-stone-900/10 dark:border-white/10 flex items-center justify-between">
                 <span className="text-xs font-bold text-stone-900 dark:text-stone-100">
-                  — {item.user}
+                  — {item.userKey ? t(item.userKey, item.defaultUser) : item.user}
                 </span>
                 <span className="text-[11px] font-semibold text-stone-600 dark:text-stone-400 bg-white/60 dark:bg-stone-900/40 px-2.5 py-0.5 rounded-full border border-stone-200/50 dark:border-stone-800/50">
-                  {item.service}
+                  {item.serviceKey ? t(item.serviceKey, item.defaultService) : item.service}
                 </span>
               </div>
             </motion.div>
@@ -926,22 +968,24 @@ function Home() {
 
               <div className="mb-6">
                 <span className="text-xs font-extrabold uppercase tracking-widest text-[#C1622B] dark:text-[#E07A3E]">
-                  COMMUNITY REVIEWS
+                  {t("reviews.eyebrow", "COMMUNITY REVIEWS")}
                 </span>
                 <h3 className="text-2xl font-extrabold text-stone-900 dark:text-white mt-1">
-                  Share Your Experience
+                  {t("reviews.modalTitle", "Share Your Experience")}
                 </h3>
                 <p className="text-xs text-stone-600 dark:text-stone-400 mt-1 font-medium">
-                  Help neighbors find trusted cooperative workers in your district.
+                  {t("reviews.modalSubtitle", "Help neighbors find trusted cooperative workers in your district.")}
                 </p>
               </div>
 
               {isSubmittedNotice ? (
                 <div className="py-10 text-center flex flex-col items-center justify-center">
                   <CheckCircle2 className="h-12 w-12 text-emerald-500 mb-3 animate-bounce" />
-                  <h4 className="text-xl font-bold text-stone-900 dark:text-white">Review Added!</h4>
+                  <h4 className="text-xl font-bold text-stone-900 dark:text-white">
+                    {t("reviews.submittedTitle", "Review Added!")}
+                  </h4>
                   <p className="text-sm text-stone-600 dark:text-stone-300 mt-1">
-                    Thank you for supporting community worker cooperatives.
+                    {t("reviews.submittedSubtext", "Thank you for supporting community worker cooperatives.")}
                   </p>
                 </div>
               ) : (
@@ -950,7 +994,7 @@ function Home() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 mb-1">
-                        Your Name *
+                        {t("reviews.formName", "Your Name *")}
                       </label>
                       <input
                         type="text"
@@ -964,7 +1008,7 @@ function Home() {
 
                     <div>
                       <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 mb-1">
-                        Neighborhood / City
+                        {t("reviews.formLocation", "Neighborhood / City")}
                       </label>
                       <input
                         type="text"
@@ -978,7 +1022,7 @@ function Home() {
 
                   <div>
                     <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 mb-1">
-                      Select Service Booked
+                      {t("reviews.formService", "Select Service Booked")}
                     </label>
                     <select
                       value={formService}
@@ -986,8 +1030,8 @@ function Home() {
                       className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 px-3.5 py-2 text-sm text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus-visible:ring-[#C1622B]"
                     >
                       {serviceTrain.map((s) => (
-                        <option key={s.id} value={s.name}>
-                          {s.name}
+                        <option key={s.id} value={t(s.nameKey, s.defaultName)}>
+                          {t(s.nameKey, s.defaultName)}
                         </option>
                       ))}
                     </select>
@@ -995,7 +1039,7 @@ function Home() {
 
                   <div>
                     <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 mb-1">
-                      Rating: {formHoverRating || formRating} Stars
+                      {t("reviews.formRating", "Rating:")} {formHoverRating || formRating} Stars
                     </label>
                     <div className="flex items-center gap-1.5 py-1">
                       {[1, 2, 3, 4, 5].map((star) => (
@@ -1005,7 +1049,7 @@ function Home() {
                           onClick={() => setFormRating(star)}
                           onMouseEnter={() => setFormHoverRating(star)}
                           onMouseLeave={() => setFormHoverRating(0)}
-                          className="p-1 text-amber-400 transition-transform hover:scale-125 focus:outline-none"
+                          className="p-1 text-amber-400 transition-transform hover:scale-125 focus:outline-none cursor-pointer"
                         >
                           <Star
                             className={`h-7 w-7 ${
@@ -1021,7 +1065,7 @@ function Home() {
 
                   <div>
                     <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 mb-1">
-                      Headline Title *
+                      {t("reviews.formTitle", "Headline Title *")}
                     </label>
                     <input
                       type="text"
@@ -1035,7 +1079,7 @@ function Home() {
 
                   <div>
                     <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 mb-1">
-                      Detailed Review *
+                      {t("reviews.formQuote", "Detailed Review *")}
                     </label>
                     <textarea
                       required
@@ -1050,9 +1094,9 @@ function Home() {
                   <div className="pt-2">
                     <button
                       type="submit"
-                      className="w-full rounded-xl bg-gradient-to-r from-[#C1622B] to-[#DB703C] hover:from-[#B0541E] hover:to-[#C1622B] text-white py-3 text-sm font-bold shadow-md transition-all duration-200 hover:shadow-lg"
+                      className="w-full rounded-xl bg-gradient-to-r from-[#C1622B] to-[#DB703C] hover:from-[#B0541E] hover:to-[#C1622B] text-white py-3 text-sm font-bold shadow-md transition-all duration-200 hover:shadow-lg cursor-pointer"
                     >
-                      Post Community Review
+                      {t("reviews.formSubmit", "Post Community Review")}
                     </button>
                   </div>
 

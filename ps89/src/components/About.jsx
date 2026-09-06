@@ -1,14 +1,18 @@
-
 import { motion } from "framer-motion";
 import { Sparkles, TrendingUp, ShieldCheck, HeartHandshake } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
 
 function About() {
+  const { t } = useLanguage();
+
   const stats = [
     {
       id: 1,
       number: "90%",
-      label: "Worker Earnings",
-      subtext: "Direct transparent payments.",
+      labelKey: "about.stat1Label",
+      defaultLabel: "Worker Earnings",
+      subtextKey: "about.stat1Subtext",
+      defaultSubtext: "Direct transparent payments.",
       accent: "text-[#C1622B] dark:text-[#E07A3E]",
       borderHover: "hover:border-[#C1622B]/50 dark:hover:border-[#E07A3E]/50",
       icon: TrendingUp
@@ -16,8 +20,10 @@ function About() {
     {
       id: 2,
       number: "10%",
-      label: "Welfare Fund",
-      subtext: "Reinvested into community health and safety.",
+      labelKey: "about.stat2Label",
+      defaultLabel: "Welfare Fund",
+      subtextKey: "about.stat2Subtext",
+      defaultSubtext: "Reinvested into community health and safety.",
       accent: "text-[#2D5A3D] dark:text-[#529F6E]",
       borderHover: "hover:border-[#2D5A3D]/50 dark:hover:border-[#529F6E]/50",
       icon: HeartHandshake
@@ -25,8 +31,10 @@ function About() {
     {
       id: 3,
       number: "44,000+",
-      label: "Labour Cooperatives",
-      subtext: "Verified registered societies across the nation.",
+      labelKey: "about.stat3Label",
+      defaultLabel: "Labour Cooperatives",
+      subtextKey: "about.stat3Subtext",
+      defaultSubtext: "Verified registered societies across the nation.",
       accent: "text-[#C1622B] dark:text-[#E07A3E]",
       borderHover: "hover:border-[#C1622B]/50 dark:hover:border-[#E07A3E]/50",
       icon: ShieldCheck
@@ -44,12 +52,10 @@ function About() {
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
-        {/* =========================================
-            ABOUT HEADER & TEXT CONTENT
-            ========================================= */}
+        {/* ABOUT HEADER & TEXT CONTENT */}
         <div className="max-w-4xl">
           
-          {/* Eyebrow / Label */}
+          {/* Eyebrow */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -58,7 +64,7 @@ function About() {
             className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#C1622B]/30 bg-[#C1622B]/10 dark:border-[#E07A3E]/30 dark:bg-[#E07A3E]/10 px-3.5 py-1 text-xs font-extrabold uppercase tracking-[0.25em] text-[#C1622B] dark:text-[#E07A3E]"
           >
             <Sparkles className="h-3.5 w-3.5" />
-            <span>ABOUT KAUSHALSETU</span>
+            <span>{t("about.eyebrow", "ABOUT KAUSHALSETU")}</span>
           </motion.div>
 
           {/* Main Heading */}
@@ -69,7 +75,7 @@ function About() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-3xl font-extrabold tracking-tight text-stone-900 dark:text-white sm:text-4xl lg:text-5xl leading-[1.18]"
           >
-            Not another app. A platform that belongs to its workers.
+            {t("about.title", "Not another app. A platform that belongs to its workers.")}
           </motion.h2>
 
           {/* Paragraph 1 */}
@@ -80,18 +86,10 @@ function About() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mt-6 text-base sm:text-lg leading-relaxed text-stone-700 dark:text-stone-300 font-medium"
           >
-            KaushalSetu connects households with plumbers, electricians, caregivers, and cleaners — all verified members of India's real Labour Cooperative Societies. No open sign-up, no anonymous freelancers. Just cooperative-verified workers, booked in minutes, keeping ~90% of what they earn.
-          </motion.p>
-
-          {/* Paragraph 2 */}
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.25 }}
-            className="mt-4 text-base sm:text-lg leading-relaxed text-stone-700 dark:text-stone-300 font-medium"
-          >
-            Workers who own their platform, earn what they deserve. KaushalSetu bridges the gap between verified cooperative workers and the households that need them.
+            {t(
+              "about.description",
+              "KaushalSetu connects households with plumbers, electricians, caregivers, and cleaners — all verified members of India's real Labour Cooperative Societies. No open sign-up, no anonymous freelancers. Just cooperative-verified workers, booked in minutes, keeping ~90% of what they earn."
+            )}
           </motion.p>
 
           {/* Styled Tagline Callout Box */}
@@ -104,15 +102,13 @@ function About() {
           >
             <div className="absolute top-0 right-0 h-24 w-24 rounded-bl-full bg-gradient-to-br from-[#C1622B]/10 to-transparent pointer-events-none" />
             <p className="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100 italic leading-relaxed">
-              "Kaushal (skill) + Setu (bridge) — a bridge between verified skill and the people who need it."
+              "{t("about.callout", "Kaushal (skill) + Setu (bridge) — a bridge between verified skill and the people who need it.")}"
             </p>
           </motion.div>
 
         </div>
 
-        {/* =========================================
-            STATS GRID (3-COLUMN RESPONSIVE GRID)
-            ========================================= */}
+        {/* STATS GRID */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -142,11 +138,11 @@ function About() {
                 </div>
 
                 <h3 className="mt-4 text-lg font-bold text-stone-900 dark:text-stone-100">
-                  {stat.label}
+                  {t(stat.labelKey, stat.defaultLabel)}
                 </h3>
 
                 <p className="mt-1.5 text-sm font-medium leading-relaxed text-stone-600 dark:text-stone-400">
-                  {stat.subtext}
+                  {t(stat.subtextKey, stat.defaultSubtext)}
                 </p>
               </motion.div>
             );
@@ -159,5 +155,3 @@ function About() {
 }
 
 export default About;
-
-

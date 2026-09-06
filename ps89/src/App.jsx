@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { LanguageProvider } from "./context/LanguageContext";
 
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
@@ -29,16 +30,19 @@ function HomePage() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/worker-dashboard" element={<WorkerDashboard />} />
-        <Route path="/consumer-dashboard" element={<ConsumerDashboard />} />
-      </Routes>
-    </BrowserRouter>
+    <LanguageProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/worker-dashboard" element={<WorkerDashboard />} />
+          <Route path="/consumer-dashboard" element={<ConsumerDashboard />} />
+        </Routes>
+      </BrowserRouter>
+    </LanguageProvider>
   );
 }
 
 export default App;
+
