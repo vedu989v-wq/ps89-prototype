@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Sun, Moon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import WorkerHome from "./WorkerHome";
 import WorkerRequests from "./WorkerRequests";
 import WorkerProfileSettings from "./WorkerProfileSettings";
 
 function WorkerDashboard() {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
 
   const [activePage, setActivePage] = useState("home");
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(() => window.innerWidth >= 768);
   const [languageOpen, setLanguageOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -18,6 +20,17 @@ function WorkerDashboard() {
       setIsDarkMode(true);
     }
   }, []);
+
+  const worker = JSON.parse(
+    localStorage.getItem("loggedInWorker") || "null"
+  );
+  const hasWorkerSession = Boolean(worker);
+
+  useEffect(() => {
+    if (!hasWorkerSession) {
+      navigate("/login", { replace: true });
+    }
+  }, [hasWorkerSession, navigate]);
 
   const toggleTheme = () => {
     if (isDarkMode) {
@@ -31,13 +44,7 @@ function WorkerDashboard() {
     }
   };
 
-  const worker = JSON.parse(
-    localStorage.getItem("loggedInWorker") || "null"
-  );
-  if (!worker) {
-    window.location.href = "/login";
-    return null;
-  }
+  if (!worker) return null;
 
   const menuItems = [
     {
@@ -63,7 +70,7 @@ function WorkerDashboard() {
 
     localStorage.removeItem("loggedInWorker");
     localStorage.removeItem("token");
-    window.location.href = "/login";
+    navigate("/login");
   };
 
   const changeLanguage = (language) => {
@@ -78,7 +85,7 @@ function WorkerDashboard() {
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
         className={`fixed top-5 z-50 flex h-11 w-11 items-center justify-center rounded-xl bg-[#C1622B] text-xl text-white shadow-lg transition-all duration-300 ${
-          sidebarOpen ? "left-64" : "left-4"
+          sidebarOpen ? "left-4 md:left-64" : "left-4"
         }`}
         aria-label="Toggle sidebar"
       >
@@ -104,7 +111,7 @@ function WorkerDashboard() {
       {/* Sidebar */}
       <aside
         className={`fixed left-0 top-0 z-40 flex h-screen flex-col border-r border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-950 shadow-xl transition-all duration-300 ${
-          sidebarOpen ? "w-72" : "w-20"
+          sidebarOpen ? "w-72 translate-x-0" : "w-20 -translate-x-full md:translate-x-0"
         }`}
       >
         {/* Sidebar Header */}
@@ -128,7 +135,10 @@ function WorkerDashboard() {
           {menuItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => setActivePage(item.id)}
+              onClick={() => {
+                setActivePage(item.id);
+                if (window.innerWidth < 768) setSidebarOpen(false);
+              }}
               className={`flex w-full items-center gap-4 rounded-xl px-4 py-3 text-left font-semibold transition duration-200 ${
                 activePage === item.id
                   ? "bg-[#C1622B] dark:bg-[#E07A3E] text-white shadow-md"
@@ -201,21 +211,32 @@ function WorkerDashboard() {
         </div>
       </aside>
 
+      {sidebarOpen && (
+        <button
+          type="button"
+          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 z-30 bg-stone-950/35 md:hidden"
+          aria-label="Close sidebar"
+        />
+      )}
+
       {/* Main Content */}
       <main
-        className={`min-h-screen p-6 transition-all duration-300 md:p-10 ${
+        className={`min-h-screen min-w-0 p-4 pt-20 transition-all duration-300 sm:p-6 sm:pt-20 md:p-10 md:pt-10 ${
           sidebarOpen ? "md:ml-72" : "md:ml-20"
         }`}
       >
-        {activePage === "home" && <WorkerHome worker={worker} />}
+        <div key={activePage} className="app-page-enter">
+          {activePage === "home" && <WorkerHome worker={worker} />}
 
-        {activePage === "requests" && (
-          <WorkerRequests worker={worker} />
-        )}
+          {activePage === "requests" && (
+            <WorkerRequests worker={worker} />
+          )}
 
-        {activePage === "profile-settings" && (
-          <WorkerProfileSettings worker={worker} />
-        )}
+          {activePage === "profile-settings" && (
+            <WorkerProfileSettings worker={worker} />
+          )}
+        </div>
       </main>
     </div>
   );

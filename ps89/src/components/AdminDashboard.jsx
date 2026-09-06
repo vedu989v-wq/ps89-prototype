@@ -168,7 +168,7 @@ const sidebarItems = [
 
 function AdminDashboard() {
   const [isSocietyModalOpen, setIsSocietyModalOpen] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => window.innerWidth >= 768);
   const [activePage, setActivePage] = useState("home");
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -205,7 +205,7 @@ function AdminDashboard() {
 
       <aside
         className={`fixed left-0 top-0 z-50 flex h-screen flex-col border-r border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-950 transition-all duration-300 ${
-          isSidebarOpen ? "w-64" : "w-20"
+          isSidebarOpen ? "w-64 translate-x-0" : "w-20 -translate-x-full md:translate-x-0"
         }`}
       >
         {/* Logo */}
@@ -277,6 +277,24 @@ function AdminDashboard() {
         </div>
       </aside>
 
+      <button
+        type="button"
+        onClick={() => setIsSidebarOpen(true)}
+        className="fixed left-4 top-5 z-50 flex h-11 w-11 items-center justify-center rounded-xl bg-[#C1622B] text-xl text-white shadow-lg md:hidden"
+        aria-label="Open sidebar"
+      >
+        →
+      </button>
+
+      {isSidebarOpen && (
+        <button
+          type="button"
+          onClick={() => setIsSidebarOpen(false)}
+          className="fixed inset-0 z-30 bg-stone-950/35 md:hidden"
+          aria-label="Close sidebar"
+        />
+      )}
+
       {/* =====================================================
           MAIN CONTENT
       ===================================================== */}
@@ -287,7 +305,7 @@ function AdminDashboard() {
         }`}
       >
         {/* Top Header */}
-        <header className="sticky top-0 z-40 flex h-20 items-center justify-between border-b border-stone-200 dark:border-stone-800 bg-[#FAF6F0]/95 dark:bg-[#111311]/95 px-6 backdrop-blur md:px-10">
+        <header className="sticky top-0 z-40 flex h-20 items-center justify-between border-b border-stone-200 dark:border-stone-800 bg-[#FAF6F0]/95 dark:bg-[#111311]/95 px-4 backdrop-blur sm:px-6 md:px-10">
           <div>
             <p className="text-sm font-medium text-stone-500 dark:text-stone-400">
               Federation Admin Portal
@@ -338,6 +356,7 @@ function AdminDashboard() {
 
         {/* Page Content */}
         <main className="p-6 md:p-10">
+          <div key={activePage} className="app-page-enter">
           {activePage === "home" && <HomePage />}
 
           {activePage === "workers" && <WorkersPage />}
@@ -349,6 +368,7 @@ function AdminDashboard() {
           {activePage === "societies" && <SocietiesPage />}
 
           {activePage === "settings" && <Settings />}
+          </div>
         </main>
       </div>
     </div>

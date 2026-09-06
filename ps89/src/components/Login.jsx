@@ -10,6 +10,7 @@ function Login() {
   const [fedAdCode, setFedAdCode] = useState("");
   const [loginError, setLoginError] = useState("");
   const [email, setEmail] = useState("");
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const navigate = useNavigate();
 
@@ -82,7 +83,8 @@ function Login() {
         })
       );
 
-      navigate("/admin-dashboard");
+      setIsLoggingIn(true);
+      window.setTimeout(() => navigate("/admin-dashboard"), 700);
       return;
     }
     // Worker login
@@ -97,7 +99,8 @@ function Login() {
       }
 
       localStorage.setItem("loggedInWorker", JSON.stringify(worker));
-      navigate("/worker-dashboard");
+      setIsLoggingIn(true);
+      window.setTimeout(() => navigate("/worker-dashboard"), 700);
     } 
     // Consumer login
     else if (selectedRole === "consumer") {
@@ -110,10 +113,25 @@ function Login() {
         return;
       }
       localStorage.setItem("loggedInConsumer", JSON.stringify(consumer));
-      navigate("/consumer-dashboard");
+      setIsLoggingIn(true);
+      window.setTimeout(() => navigate("/consumer-dashboard"), 700);
       return;
     }
   };
+
+  if (isLoggingIn) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#FAF6F0] px-6 text-stone-900 dark:bg-[#111311] dark:text-stone-100">
+        <div className="text-center">
+          <div className="mx-auto mb-6 h-12 w-12 animate-spin rounded-full border-4 border-[#C1622B]/20 border-t-[#C1622B] dark:border-orange-400/20 dark:border-t-orange-400" />
+          <h1 className="text-2xl font-extrabold">Logging you in</h1>
+          <p className="mt-2 text-sm font-medium text-stone-500 dark:text-stone-400">
+            Preparing your cooperative workspace...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#FAF6F0] dark:bg-[#111311] text-stone-900 dark:text-stone-100 transition-colors duration-300 px-6 py-12 relative">

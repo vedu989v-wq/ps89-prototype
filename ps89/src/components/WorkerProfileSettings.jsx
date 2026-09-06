@@ -1,7 +1,9 @@
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 function WorkerProfileSettings({ worker }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const settingsOptions = [
     {
@@ -39,7 +41,7 @@ function WorkerProfileSettings({ worker }) {
     localStorage.removeItem("loggedInWorker");
     localStorage.removeItem("token");
 
-    window.location.href = "/login";
+    navigate("/login");
   };
 
   return (
