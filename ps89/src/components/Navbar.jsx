@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Sun, Moon, Menu, X, ArrowRight } from "lucide-react";
+import { Sun, Moon, Menu, X, ArrowRight, Languages } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLanguage } from "../context/LanguageContext";
 import logo from "../assets/logo.png";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const { language, toggleLanguage, t } = useLanguage();
 
   useEffect(() => {
     // Check initial dark mode preference or html class
@@ -17,12 +20,12 @@ function Navbar() {
   }, []);
 
   const navLinks = [
-    { id: "home", label: "Home" },
-    { id: "about", label: "About" },
-    { id: "services", label: "Services" },
-    { id: "trust-chain", label: "Trust Chain" },
-    { id: "fair-earnings", label: "Fair Earnings" },
-    { id: "institutions", label: "Institutions" },
+    { id: "home", labelKey: "nav.home", defaultLabel: "Home" },
+    { id: "about", labelKey: "nav.about", defaultLabel: "About" },
+    { id: "services", labelKey: "nav.services", defaultLabel: "Services" },
+    { id: "trust-chain", labelKey: "nav.trustChain", defaultLabel: "Trust Chain" },
+    { id: "fair-earnings", labelKey: "nav.fairEarnings", defaultLabel: "Fair Earnings" },
+    { id: "institutions", labelKey: "nav.institutions", defaultLabel: "Institutions" },
   ];
 
   // ScrollSpy: Track active section dynamically during manual scroll
@@ -116,7 +119,7 @@ function Navbar() {
               Kaushal<span className="text-[#C1622B] dark:text-[#E07A3E]">Setu</span>
             </span>
             <span className="text-[10px] font-bold tracking-wider text-stone-600 dark:text-stone-400 uppercase -mt-1">
-              Labour Collective
+              {language === "hi" ? "डायरेक्ट लेबर कलेक्टिव" : "Labour Collective"}
             </span>
           </div>
         </a>
@@ -139,7 +142,7 @@ function Navbar() {
                     : "text-stone-800 dark:text-stone-100 hover:text-[#C1622B] dark:hover:text-white"
                 }`}
               >
-                {link.label}
+                {t(link.labelKey, link.defaultLabel)}
                 {isActive && (
                   <motion.div
                     layoutId="activeNavIndicator"
@@ -152,13 +155,31 @@ function Navbar() {
           })}
         </nav>
 
-        {/* Action Controls (Theme Toggle & Login Button) */}
+        {/* Action Controls (Language Toggle, Theme Toggle & Login Button) */}
         <div className="hidden items-center gap-3 sm:flex">
+          {/* Sleek EN | HI Language Toggle Button */}
+          <button
+            onClick={toggleLanguage}
+            type="button"
+            className="flex h-10 items-center justify-center rounded-full border border-stone-300 dark:border-stone-700 bg-white/90 dark:bg-stone-800/90 px-3.5 text-xs font-extrabold text-stone-800 dark:text-stone-100 transition-all duration-200 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C1622B] shadow-xs cursor-pointer"
+            aria-label="Toggle language between English and Hindi"
+            title="Switch Language"
+          >
+            <Languages className="h-3.5 w-3.5 mr-1.5 text-stone-500 dark:text-stone-400" />
+            <span className={language === "en" ? "text-[#C1622B] dark:text-[#E07A3E] font-extrabold" : "text-stone-400 dark:text-stone-500"}>
+              EN
+            </span>
+            <span className="mx-1 text-stone-300 dark:text-stone-600">|</span>
+            <span className={language === "hi" ? "text-[#C1622B] dark:text-[#E07A3E] font-extrabold" : "text-stone-400 dark:text-stone-500"}>
+              HI
+            </span>
+          </button>
+
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
             type="button"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-300 dark:border-stone-700 bg-white/90 dark:bg-stone-800/90 text-stone-800 dark:text-stone-100 transition-all duration-200 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C1622B] shadow-xs"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-300 dark:border-stone-700 bg-white/90 dark:bg-stone-800/90 text-stone-800 dark:text-stone-100 transition-all duration-200 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C1622B] shadow-xs cursor-pointer"
             aria-label={isDarkMode ? "Switch to light theme" : "Switch to dark theme"}
           >
             {isDarkMode ? (
@@ -173,13 +194,25 @@ function Navbar() {
             to="/login"
             className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#C1622B] to-[#DB703C] hover:from-[#B0541E] hover:to-[#C1622B] px-5 py-2 text-sm font-bold text-white shadow-md shadow-[#C1622B]/20 transition-all duration-300 hover:shadow-lg hover:shadow-[#C1622B]/30 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C1622B]"
           >
-            <span>Login</span>
+            <span>{t("nav.login", "Login")}</span>
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
         {/* Mobile Menu & Theme Controls */}
         <div className="flex items-center gap-2 lg:hidden">
+          {/* Mobile Language Toggle */}
+          <button
+            onClick={toggleLanguage}
+            type="button"
+            className="flex h-9 items-center justify-center rounded-full border border-stone-300 dark:border-stone-700 bg-white/90 dark:bg-stone-800/90 px-2.5 text-xs font-extrabold text-stone-800 dark:text-stone-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C1622B]"
+            aria-label="Toggle language"
+          >
+            <span className={language === "en" ? "text-[#C1622B] dark:text-[#E07A3E]" : "text-stone-400"}>EN</span>
+            <span className="mx-1 text-stone-300 dark:text-stone-600">|</span>
+            <span className={language === "hi" ? "text-[#C1622B] dark:text-[#E07A3E]" : "text-stone-400"}>HI</span>
+          </button>
+
           <button
             onClick={toggleTheme}
             type="button"
@@ -233,7 +266,7 @@ function Navbar() {
                         : "text-stone-900 dark:text-stone-200 hover:bg-stone-200/60 dark:hover:bg-stone-800/50"
                     }`}
                   >
-                    <span>{link.label}</span>
+                    <span>{t(link.labelKey, link.defaultLabel)}</span>
                     {isActive && <div className="h-2 w-2 rounded-full bg-[#C1622B]" />}
                   </a>
                 );
@@ -245,7 +278,7 @@ function Navbar() {
                   onClick={() => setIsOpen(false)}
                   className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#C1622B] to-[#DB703C] px-5 py-3 text-center text-base font-bold text-white shadow-md shadow-[#C1622B]/20"
                 >
-                  <span>Login to Platform</span>
+                  <span>{t("nav.loginToPlatform", "Login to Platform")}</span>
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -258,5 +291,3 @@ function Navbar() {
 }
 
 export default Navbar;
-
-

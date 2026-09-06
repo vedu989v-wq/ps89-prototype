@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-
+import { LanguageProvider } from "./context/LanguageContext";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import About from "./components/About";
@@ -57,10 +57,13 @@ function RouteTransition() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <RouteTransition />
-    </BrowserRouter>
+<LanguageProvider>
+      <BrowserRouter>
+        <RouteTransition />
+      </BrowserRouter>
+    </LanguageProvider>
   );
 }
 
 export default App;
+
